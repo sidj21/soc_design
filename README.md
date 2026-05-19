@@ -148,7 +148,7 @@ show multiple_modules
 
 *Figure 3: Independent Synthesis of Submodule 1 in multiple_modules.v*
 
-## Coding Flops
+## Synthesizing Flip Flops
 
 <img width="1840" height="1037" alt="day2-gtkwave" src="https://github.com/user-attachments/assets/c0279a45-06ad-4b03-aba2-69a3f9bdb9fc" />
 
@@ -162,8 +162,14 @@ show multiple_modules
 
 *Figure 6: Synthesizing Synchronous Reset D-Flip Flop*
 
+## Synthesizing Multipliers
+
+<img width="1840" height="1046" alt="day2-mult2" src="https://github.com/user-attachments/assets/1846d35c-c787-42c5-b4e7-2b5df7e21024" />
+
+*Figure 7: Sythesizing a Multiplier by 2 (Treated as a Left Shift)*
+
+<img width="1841" height="1043" alt="day2-mult8" src="https://github.com/user-attachments/assets/0289b9d3-c935-4584-af6f-d59c35b789a8" />
+
+*Figure 8: Synthesizing a Multipler by 8 (Treated as 3x Left Shift)*
+
 </details>
-
-
-
-
