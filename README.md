@@ -140,8 +140,30 @@ show multiple_modules
 
 <img width="1855" height="1002" alt="day2-flatten" src="https://github.com/user-attachments/assets/2defc735-5da5-412b-a874-3a062bc2f4c1" />
 
-*Figure 2: Flattened Synthesis of multiple_modules.v*
+*Figure 2: Flattened Synthesis of multiple_modules.v using `>yosys flatten`*
+
+## Sub-Level Module Synthesis
+
+<img width="1855" height="1002" alt="day2-sublevel" src="https://github.com/user-attachments/assets/376c5cad-0a6a-4244-ac21-ee929350a202" />
+
+*Figure 3: Independent Synthesis of Submodule 1 in multiple_modules.v*
+
+## Coding Flops
+
+<img width="1840" height="1037" alt="day2-gtkwave" src="https://github.com/user-attachments/assets/c0279a45-06ad-4b03-aba2-69a3f9bdb9fc" />
+
+*Figure 4: Asynchronous Reset Waveform in GTKWave (as soon as async_reset = 1, q = 0)*
+
+<img width="1840" height="1037" alt="day2-asyncsynthreset" src="https://github.com/user-attachments/assets/a5f8a635-9b73-48cf-a782-a679af07921e" />
+
+*Figure 5: Synthesizing Asynchronous Reset D-Flip Flop*
+
+<img width="1840" height="1037" alt="day2-syncsynthreset" src="https://github.com/user-attachments/assets/bf3bcaf4-e4a0-4962-85eb-1765ea4c19d3" />
+
+*Figure 6: Synthesizing Synchronous Reset D-Flip Flop*
 
 </details>
+
+
 
 
