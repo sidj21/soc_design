@@ -173,3 +173,50 @@ show multiple_modules
 *Figure 8: Synthesizing a Multipler by 8 (Treated as 3x Left Shift)*
 
 </details>
+
+<details>
+<summary>Day 3 - Combinational and Sequential Optimizations</summary>
+
+## Optimization Exercises
+
+<img width="1841" height="1043" alt="day3-optcheck" src="https://github.com/user-attachments/assets/67185ec9-817e-42b1-a3e8-f84eef0f4444" />
+
+*Figure 1: Optimization of opt_check.v*
+
+<img width="1841" height="1043" alt="day3-optcheck2" src="https://github.com/user-attachments/assets/cadce145-78cb-487a-8e52-248dbea87c51" />
+
+*Figure 2: Optimization of opt_check2.v*
+
+<img width="1841" height="1043" alt="day3-optcheck3" src="https://github.com/user-attachments/assets/a5cfc145-d9a0-44cb-962f-2c30a3ae583a" />
+
+*Figure 3: Optimization of opt_check3.v*
+
+The following code was used for `multiple_module_opt.v`.
+```
+module sub_module1(input a , input b , output y);
+ assign y = a & b;
+endmodule
+
+module sub_module2(input a , input b , output y);
+ assign y = a^b;
+endmodule
+
+module multiple_module_opt(input a , input b , input c , input d , output y);
+wire n1,n2,n3;
+
+sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+assign y = c | (b & n1); 
+endmodule
+```
+
+`opt_clean -purge` was used for optimization and `>yosys show multiple_module_opt` was used for the Dot viewer.
+
+<img width="1848" height="436" alt="day3-multipleopt" src="https://github.com/user-attachments/assets/608dd987-de9d-4c2f-bf57-ba97cd216909" />
+
+*Figure 4: Optimization of multiple_module_opt*
+
+
+</details>
