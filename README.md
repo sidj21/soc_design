@@ -218,5 +218,56 @@ endmodule
 
 *Figure 4: Optimization of multiple_module_opt*
 
+## Sequential Logic Optimization
+
+### dff_const1.v
+
+<img width="1854" height="1048" alt="day3-dff1wave" src="https://github.com/user-attachments/assets/5366fb57-5201-4d2d-b09b-ff0c2e35dac4" />
+
+<img width="1853" height="1003" alt="day3-dff1synth" src="https://github.com/user-attachments/assets/804cbd35-9c86-4b99-85ca-87d7728b0305" />
+
+*Figure 5 & 6: Optimization of dff_const1.v*
+
+### dff_const2.v
+
+<img width="1854" height="1048" alt="day3-dff2wave" src="https://github.com/user-attachments/assets/eacbf9f3-d0cb-43f4-b73a-1ea46a417094" />
+
+<img width="1853" height="1003" alt="day3-dff2synth" src="https://github.com/user-attachments/assets/73d2f564-9c9f-4174-88b3-13a8a7cba3cc" />
+
+*Figure 7 & 8: Optimization of dff_const2.v*
+
+### dff_const3.v
+
+<img width="1854" height="1048" alt="day3-dff3wave" src="https://github.com/user-attachments/assets/58fc75c9-3c99-45c6-a635-616feca168ed" />
+
+<img width="1853" height="1003" alt="day3-dff3synth" src="https://github.com/user-attachments/assets/a32f0b79-42dd-4a22-ae61-ab03deb18d70" />
+
+*Figure 9 & 10: Optimization of dff_const3.v*
+
+### dff_const4.v
+
+<img width="1854" height="1048" alt="day3-dff4wave" src="https://github.com/user-attachments/assets/91a6af9e-72a6-4328-9ee0-df7c0a20d36f" />
+
+<img width="1853" height="1003" alt="day3-dff4synth" src="https://github.com/user-attachments/assets/39dd842d-d659-4bac-8a6a-1442ad72610d" />
+
+*Figure 11 & 12: Optimization of dff_const4.v*
+
+### dff_const5.v
+
+<img width="1854" height="1048" alt="day3-dff5wave" src="https://github.com/user-attachments/assets/6f85a774-f55f-411c-a1a5-48ead7ebd647" />
+
+<img width="1853" height="1003" alt="day3-dff5synth" src="https://github.com/user-attachments/assets/9d26a89f-3905-44b4-ba38-27bc36adb115" />
+
+*Figure 13 & 14: Optimization of dff_const5.v*
+
+## Counter Optimization
+
+<img width="1855" height="1045" alt="day3-optcounter" src="https://github.com/user-attachments/assets/7873ce89-06e3-4696-9690-6479f1506985" />
+
+*Figure 15: Optimization of counter_opt.v*
+
+<img width="1855" height="1045" alt="day3-optcounter2" src="https://github.com/user-attachments/assets/eb0d4f52-7d95-4988-93b8-a18714bfa97e" />
+
+*Figure 16: Optimization of counter_opt2.v*
 
 </details>
