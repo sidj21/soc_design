@@ -112,8 +112,36 @@ _Figure 4: Yosys - ABC Pass_
 
 <img width="1848" height="267" alt="yosys_show_terminal" src="https://github.com/user-attachments/assets/22c85569-258b-4e87-afe3-80d5c920186c" />
 
-_Figure 5: Yosys - Show Command_
+_Figure 5: Yosys - Show Command_   
 
-<img width="1854" height="1048" alt="yosys_show" src="https://github.com/user-attachments/assets/da906e31-eb61-460f-92a5-e767a7726eb8" />
+</details>
 
-_Figure 6: Yosys - Dot Viewer_
+<details>  
+<summary>Day 2 - Timing libs, Hierarchical vs Flat Synthesis and Efficient Flop Coding Styles</summary>
+
+## Synthesizing multiple_modules.v
+
+The following commands were used to synthesize the design, similar to day 1.
+```
+read_liberty -lib /home/sid/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog multiple_modules.v
+synth -top multiple_modules
+abc -liberty /home/sid/sky130RTLDesignAndSynthesisWorkshop/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+show multiple_modules
+```
+
+*Figure 1: Synthesizing multiple_modules.v with Sky130 .lib file*
+
+<img width="1855" height="1002" alt="day2-multiple-show" src="https://github.com/user-attachments/assets/ba7d41e9-4250-4fa1-acf6-3aa1216ff4b1" />
+
+*Figure 2: Dot Viewer for Multiple Modules*
+
+## Flat Synthesis
+
+<img width="1855" height="1002" alt="day2-flatten" src="https://github.com/user-attachments/assets/2defc735-5da5-412b-a874-3a062bc2f4c1" />
+
+*Figure 2: Flattened Synthesis of multiple_modules.v*
+
+</details>
+
+
