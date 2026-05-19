@@ -271,3 +271,71 @@ endmodule
 *Figure 16: Optimization of counter_opt2.v*
 
 </details>
+
+<details>
+
+<summary>Day 4 - GLS, Blocking vs Non-blocking and Synthesis-Simulation Mismatch</summary>
+
+## Ternary Mux Example
+
+```
+iverilog ternary_operator_mux.v tb_ternary_operator_mux.v
+./a.out
+gtkwave tb_ternary_operator_mux.vcd
+```
+<img width="1854" height="1048" alt="ternarywave" src="https://github.com/user-attachments/assets/3b9bfe8a-2272-466b-8a27-f824f8bf41af" />
+
+*Figure 1: GTKWave Simulation Waveform for Ternary Operator*
+
+<img width="1855" height="1045" alt="ternarysynth" src="https://github.com/user-attachments/assets/153bda47-d4f1-471d-bf93-c1a4d8779bf3" />
+
+*Figure 2: Synthesis of Ternary Mux Operator*
+
+```
+>yosys write_verilog ternary_operator_mux_net.v
+iverilog ../my_lib/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v ternary_operator_mux_net.v tb_ternary_operator_mux.v
+./a.out
+gtkwave tb_ternary_operator_mux.vcd
+```
+
+In this case, we can conclude that the circuit is funcitonal since the gate level simulation (GLS) matches the original simulation waveform.
+<img width="1854" height="1048" alt="ternarygls" src="https://github.com/user-attachments/assets/db882cd4-4a90-4714-977f-04385253fb0e" />
+
+*Figure 3: Gate Level Simulation of Ternary Mux Operator*
+
+## Bad Mux Example
+
+There is an intentional bug in this program, where the sensitivity list does not include all the changing parameters:
+`always @ (sel)`
+
+<img width="1854" height="1048" alt="badmuxwave" src="https://github.com/user-attachments/assets/4b022896-9197-4f6f-9b79-03b0e7fd0b5e" />
+
+*Figure 4: GTKWave Simulation Waveform for Bad Mux*
+
+It is interesting that `Yosys` warns you about this exact issue before you synthesize, when you tell it to read the Verilog file:
+`use of @* instead of @(...) for better match of synthesis and simulation.`
+
+<img width="1855" height="1045" alt="badmuxsynth" src="https://github.com/user-attachments/assets/52845e28-7623-4507-bcb0-baec4840d099" />
+
+*Figure 5: Synthesis of Bad Mux*
+
+Due to the incorrect sensitivity list, the GLS does not match the simulation waveform (e.g. around the 200ns area - the GLS has several spikes).
+<img width="1854" height="1048" alt="badmuxgls" src="https://github.com/user-attachments/assets/f1b22e78-5b55-46a7-9267-568c0b859ed4" />
+*Figure 6: Gate Level Simulation of Bad Mux*
+
+## Blocking Caveat Example
+
+<img width="1854" height="1048" alt="caveatwave" src="https://github.com/user-attachments/assets/e22137de-6e7b-4e4c-bfb9-807514dfbcfd" />
+
+*Figure 6: GTKWave Simulation Waveform of Blocking Caveat*
+
+<img width="1855" height="1045" alt="caveatsynth" src="https://github.com/user-attachments/assets/dd7fac10-085e-4f16-9437-153fcadb90fb" />
+
+*Figure 7: Synthesis of Blocking Caveat*
+
+<img width="1854" height="1048" alt="caveatgls" src="https://github.com/user-attachments/assets/1e3f1fba-2726-4f28-891b-bae890d59569" />
+
+*Figure 8: Gate Level Simulation of Blocking Caveat*
+
+
+</details>
