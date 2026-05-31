@@ -1,0 +1,14 @@
+/*Inputs:
+     - D: A 10-bit digital input from the processor.
+     - VREFH: Reference voltage for the DAC.
+  Output:
+     - OUT: Analog output signal.
+*/
+
+module avsddac(
+    input wire D,
+    input wire VREFH,
+    output wire OUT
+);
+
+endmodule
