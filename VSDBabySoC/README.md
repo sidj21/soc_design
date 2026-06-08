@@ -30,12 +30,14 @@ VSDBabySoC/
 └── compiled_tlv/         # Holds compiled intermediate files if needed
 ```
 
-
 ## Pre-Synthesis Simulation
-> [!IMPORTANT]
-> It is not possible to sythesis an analog design with Verilog, yet. Thus, this analysis will simulate it using the real datatype in Verilog. 
+> Pre-synthesis simulation of VSDBabySoC is available here:  
+https://github.com/sidj21/soc_design/blob/main/VSDBabySoC/pre-synthesis.md
 
 ## Post-Synthesis Simulation
+> Pre-synthesis simulation of VSDBabySoC is available here:  
+https://github.com/sidj21/soc_design/blob/main/VSDBabySoC/post-synthesis.md
 
-
-## Static Timing Analysis 
+## Static Timing Analysis
+> The static timing analysis of VSDBabySoC is available here:  
+https://github.com/sidj21/soc_design/blob/main/VSDBabySoC/sta.md
