@@ -7,26 +7,32 @@ While the RTL (soft) IP cores tested the raw logic in a perfect environment, GLS
 ## Simulation Waveform
 Making the simulation:
 ```
-$ cd ~/VSDBabySoC
+$ cd ../VSDBabySoC
 $ make post_synth_sim
 ```
 
-Underneath, this is running the same commands as seen with Yosys from Day 2-4:
+Underneath, this is running the same commands as seen with Yosys from Day 2-4:  
+**Step #1: Read digital liberty files**
 ```
-# Step 1: Read digital liberty files
 read_liberty -lib ../VSDBabySoC/src/lib/avsdpll.lib 
 read_liberty -lib ../VSDBabySoC/src/lib/avsddac.lib 
 read_liberty -lib ../VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+```
 
-# Step 2: Read involved Verilog files
+**Step #2: Read involved Verilog files**
+```
 read_verilog ../VSDBabySoC/src/module/vsdbabysoc.v 
 read_verilog -I ../VSDBabySoC/src/include ../VSDBabySoC/src/module/rvmyth.v 
 read_verilog -I ../VSDBabySoC/src/include/ ../VSDBabySoC/src/module/clk_gate.v
+```
 
-# Step 3: Synthesize the top-level module
+**Step #3: Synthesize the top-level module**
+```
 synth -top vsdbabysoc 
+```
 
-# Step 4: Map D-FF and optimize the design
+**Step #4: Map D-FF and optimize the design**
+```
 dfflibmap -liberty ../VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 abc -liberty ../VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
