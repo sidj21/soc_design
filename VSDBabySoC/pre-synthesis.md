@@ -19,6 +19,20 @@ $ cd VSDBabySoC
 $ make pre_synth_sim
 ```
 
+This is equivalent to the following steps (a Python virtual environment must be confiured and activated to invoke `sandpiper-saas`):
+```
+$ sandpiper-saas -i ./src/module/*.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./src/module/
+$ mkdir output
+$ iverilog -o output/pre_synth_sim.out -DPRE_SYNTH_SIM -I src/include -I src/module src/module/testbench.v
+$ cd output
+$ ./pre_synth_sim.out
+$ gtkwave pre_synth_sim.vcd
+```
+
+<img width="1854" height="1048" alt="presynth-steps" src="https://github.com/user-attachments/assets/be949e09-76fb-48a4-ba2f-2d02de3e6465" />
+
+*Figure 1: Pre-synthesis steps*
+
 Viewing the waveform of the pre-synthesis simulation:
 ```
 $ gtkwave output/pre_synth_sim/pre_synth_sim.vcd
@@ -26,7 +40,7 @@ $ gtkwave output/pre_synth_sim/pre_synth_sim.vcd
 
 <img width="1854" height="1048" alt="babysoc_presynth" src="https://github.com/user-attachments/assets/159beb25-1be6-44b5-b853-df4f794ccf9a" />
 
-*Figure 1: GTKWave Output Simulation*
+*Figure 2: GTKWave Output Simulation*
 
 > [!NOTE]
 > The output signal `OUT` comes from the VSDBabySoC module, thus it was selected from the unit under test (`uut`). As discussed before, it must be simulated with the real datatype. It had to be updated by right clicking on it → Data Format → Analog → Step.
