@@ -51,10 +51,15 @@ report_wns -digits {4} >> ./sta_output/sta_wns.txt
 ## Results
 
 Slack is the difference between when a signal actually arrived and when it was supposed to arrive. Similar to a deadline, the slack must be a positive number in ideal cases. It could also be zero, but it shouldn't be negative since that implies the signal arrived later than required. That negative slack would be referred to as a timing violation, and it would need to be fixed. The metrics measured by the OpenSTA tool here were: 
-* Worst Setup Slack: The most negative slack from the launch flop.
-* Worst Hold Slack: The most negative slack from the capture flop.
-* Worst Negative Slack (WNS): The overall worst slack from the entire design.
-* Total Negative Slack (TNS): The sum of all violating paths from the entire design.
+* **Worst Setup Slack:** The most negative slack from the launch flop.
+* **Worst Hold Slack:** The most negative slack from the capture flop.
+* **Worst Negative Slack (WNS):** The overall worst slack from the entire design.
+* **Total Negative Slack (TNS):** The sum of all violating paths from the entire design.
+
+*Some notes:*
+* The worst timing violation happens with the -40C @ 1.28V process. Here, the WNS is -79.82ns.
+* Conversely, the "best" timing violation happens with the 100C @ 1.95V. Here, the WNS is -5.4907ns.
+* The room temperature process corner (25C @ 1.8V) seems to be much better (less negative) compared to the aggregate of other process corners.
 
 Table 1: Slack Metrics by Timing Libraries
 | Process Corner | Worst Setup Slack (ns) | Worst Hold Slack (ns) | WNS (ns) | TNS (ns) |
@@ -72,3 +77,20 @@ Table 1: Slack Metrics by Timing Libraries
 | SS -40°C 1.40V | -51.2759 | -2.0751 | -51.2759 | -50533.0000 |
 | SS -40°C 1.44V | -43.3251 | -2.2091 | -43.3251 | -43461.1719 |
 | SS -40°C 1.76V | -19.4761 | -2.6962 | -19.4761 | -18068.0371 |
+
+
+Figure 1: Worst Setup Slack Graph  
+<img width="768" height="432" alt="Worst Setup Slack by Process Corner(1)" src="https://github.com/user-attachments/assets/591787c6-527a-42cd-9a3f-bf9a85e49b4c" />
+
+Figure 2: Worst Hold Slack  
+<img width="768" height="432" alt="Worst Hold Slack by Process Corner" src="https://github.com/user-attachments/assets/83df6516-3ca1-4b89-94ae-fdf3fa64bf7e" />
+
+Figure 3: Worst Negative Slack   
+<img width="768" height="432" alt="Worst Negative Slack (WNS) by Process Corner" src="https://github.com/user-attachments/assets/aa2a2031-484c-4687-80af-ce6edbabbf45" />
+
+Figure 4: Total Negative Slack  
+<img width="768" height="432" alt="Total Negative Slack (TNS) by Process Corner" src="https://github.com/user-attachments/assets/7a89e6ab-a619-4330-b741-c6c3c0a122b4" />
+
+
+
+
