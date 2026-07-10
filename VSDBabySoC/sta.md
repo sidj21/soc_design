@@ -2,14 +2,13 @@
 
 Static Timing Analysis (STA) of digital circuits ensures their timing correctness. A basic case involves combinational logic between two flip-flops, a launch flop and a capture flop. The goal is to account for the delay in the combinational logic, as well as the latching of the two flops, to ensure the system has enough slack at it runs at its current specification. This section contains the STA analysis of a separate RISC-V Pipelined process (`riscv_pipelined_Final_netlist.v`), rather than the entire VSDBaby SoC. Specifically, it uses various Skywater130PDK-based libraries to test changes to Process, Temperature, and Voltage (PVT).
 
-Steps involved:  
+## Methodology 
 1. Gather libraries that vary PVT to test different paths (e.g. slow process/hot temperature, or fast process/cold temperature).
 2. Provide the STA tool the netlist of the synthesized design.
-3. Allow the STA tool (OpenSTA) to apply the constraints from the timing libraries and compute delays. 
+3. Allow the STA tool (OpenSTA) to apply the constraints from the `.sdc` file and compute delays. 
 
-## OpenSTA TCL File
-The following `.tcl` file was used to perform STA with the OpenSTA tool.
-`sta_across_pvt`
+* The following were placed in one folder: `/timing_libs`, `riscv_pipelined_Final_netlist.v`, `/sta_output`, `riscv_core_synthesis.sdc`
+* Then, OpenSTA was invoked with `>>> sta sta_across_pvt.tcl`
 
 ```
 set list_of_lib_files(1) "sky130_fd_sc_hd__tt_025C_1v80.lib"
@@ -50,3 +49,26 @@ report_wns -digits {4} >> ./sta_output/sta_wns.txt
 ```
 
 ## Results
+
+Slack is the difference between when a signal actually arrived and when it was supposed to arrive. Similar to a deadline, the slack must be a positive number in ideal cases. It could also be zero, but it shouldn't be negative since that implies the signal arrived later than required. That negative slack would be referred to as a timing violation, and it would need to be fixed. The metrics measured by the OpenSTA tool here were: 
+* Worst Setup Slack: The most negative slack from the launch flop.
+* Worst Hold Slack: The most negative slack from the capture flop.
+* Worst Negative Slack (WNS): The overall worst slack from the entire design.
+* Total Negative Slack (TNS): The sum of all violating paths from the entire design.
+
+Table 1: Slack Metrics by Timing Libraries
+| Process Corner | Worst Setup Slack (ns) | Worst Hold Slack (ns) | WNS (ns) | TNS (ns) |
+|----------------|------------------------:|----------------------:|---------:|---------:|
+| TT 25°C 1.80V | -10.2175 | -2.8904 | -10.2175 | -9051.2842 |
+| FF 100°C 1.65V | -7.9437 | -2.9509 | -7.9437 | -6981.7861 |
+| FF 100°C 1.95V | -5.4907 | -3.0040 | -5.4907 | -4890.9478 |
+| FF -40°C 1.56V | -10.3801 | -2.9085 | -10.3801 | -8107.1816 |
+| FF -40°C 1.65V | -8.6620 | -2.9449 | -8.6620 | -6375.1992 |
+| FF -40°C 1.76V | -7.3140 | -2.9757 | -7.3140 | -4976.5767 |
+| SS 100°C 1.40V | -33.9026 | -2.2947 | -33.9026 | -37418.4258 |
+| SS 100°C 1.60V | -22.5593 | -2.5580 | -22.5593 | -23911.1211 |
+| SS -40°C 1.28V | -79.8221 | -1.8463 | -79.8221 | -86622.6172 |
+| SS -40°C 1.35V | -61.9898 | -1.9116 | -61.9898 | -61784.2305 |
+| SS -40°C 1.40V | -51.2759 | -2.0751 | -51.2759 | -50533.0000 |
+| SS -40°C 1.44V | -43.3251 | -2.2091 | -43.3251 | -43461.1719 |
+| SS -40°C 1.76V | -19.4761 | -2.6962 | -19.4761 | -18068.0371 |
