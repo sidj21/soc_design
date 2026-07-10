@@ -339,3 +339,13 @@ Due to the incorrect sensitivity list, the GLS does not match the simulation wav
 
 
 </details>
+
+<details>
+
+<summary>Day 5 - VSDBabySoC Mini-Project</summary>  
+
+## RISC-V Based Mini-Project      
+> Pre-synthesis, post-synthesis & STA analysis available here:   
+> https://github.com/sidj21/soc_design/tree/main/VSDBabySoC
+
+</details>
