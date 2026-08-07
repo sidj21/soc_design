@@ -349,3 +349,50 @@ Due to the incorrect sensitivity list, the GLS does not match the simulation wav
 > https://github.com/sidj21/soc_design/tree/main/VSDBabySoC
 
 </details>
+
+<details>
+
+<summary>Day 6 - CMOS, VLSI & Ngspice </summary> 
+
+## Introduction
+
+## Day 1 
+<img width="1855" height="1045" alt="cmos_day1" src="https://github.com/user-attachments/assets/0e5896ee-7704-4205-9c55-9bef83195e0c" />  
+
+*Figure 1:*
+
+## Day 2
+<img width="1855" height="1045" alt="cmos_day2_l015" src="https://github.com/user-attachments/assets/fe4bff9a-3655-44af-bec8-6a0adb8cc0ee" />  
+
+*Figure 2:*
+
+<img width="1855" height="1045" alt="day2_nfet_idvgs" src="https://github.com/user-attachments/assets/9fd05abe-4630-4ddd-b6a6-4139613498d8" />  
+
+*Figure 3:*
+
+## Day 3
+<img width="1855" height="1045" alt="day3_inv_transient" src="https://github.com/user-attachments/assets/78800f2f-7b80-4ff7-817b-0d14409b1725" />  
+
+*Figure 4: Inverse Transient*
+
+<img width="1855" height="1045" alt="day3_vtc" src="https://github.com/user-attachments/assets/396e29ef-27e9-418b-a0de-c87e84af47f8" />  
+
+*Figure 5: VTC*
+
+## Day 4
+
+<img width="1855" height="1045" alt="day4_inv_noisemargin" src="https://github.com/user-attachments/assets/b42cd54d-3316-4f0f-b2ae-301684194798" />  
+
+*Figure 6: Inverse Noise Margin*
+
+## Day 5
+
+<img width="1855" height="1045" alt="day5_devicevariation" src="https://github.com/user-attachments/assets/035410cc-4bda-4428-8233-d297cb04793e" />  
+
+*Figure 7: Device Variation*
+
+<img width="1855" height="1045" alt="day5_supplyvariation" src="https://github.com/user-attachments/assets/419b7cc2-aff7-4ab8-834b-0d7b9f4effbf" />  
+
+*Figure 8: Supply Variation*
+
+</details>
