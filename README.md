@@ -355,41 +355,64 @@ Due to the incorrect sensitivity list, the GLS does not match the simulation wav
 <summary>Day 6 - CMOS, VLSI & Ngspice </summary> 
 
 ## Introduction
+While the role of MOSFETs are usually abstracted away as a digital element, they are very much analog components. The current that flows through the conducting channel is related mainly to the voltage applied at its terminals. However, there are other factors at play, such as the threshold voltage, length and width of the transistor, and other physical properties. Thus, testing transistors in a variety of conditions would become very laborious. SPICE (Simulation Program with Integrated Circuit Emphasis) helps with this process. It allows us to simulate a transistor's behaviour across many different bias conditions.  
 
-## Day 1 
+The simulations were run using ngspice, which is an open source tool. The SKY130 (130 nm) process design kit (PDK) by SkyWater was used. The `.spice` files were gathered from this repository: https://github.com/vsdip/vsd-cmos/tree/main/sky130CircuitDesignWorkshop/design.   
+
+Each `.spice` file describes a netlist. For example, the transistors, voltage sources, and how they're wired together. Then, ngspice sweeps a voltage source while measuring the resulting current or voltage.   
+
+To install ngspice and test the installation:
+```
+sudo apt install ngspice
+npspice 
+exit
+```
+## Day 1
+The plot shows the drain current as ngspice sweeps the drain voltage (v-sweep). Each curve rises linearly at first (triode/linear region, where the channel behaves resistively) then flattens out (saturation region, where current becomes roughly independent of Vds).
+
 <img width="1855" height="1045" alt="cmos_day1" src="https://github.com/user-attachments/assets/0e5896ee-7704-4205-9c55-9bef83195e0c" />  
 
-*Figure 1:*
+*Figure 1: NMOS Id–Vds family of curves*
 
 ## Day 2
+This is the same type of sweep as Day 1, but for a smaller device geometry. The general shape is the same, but the peak current is lower, since the device is narrower than the first device. In other words, the dimensions of the MOSFET play a role in its behaviour.
+
 <img width="1855" height="1045" alt="cmos_day2_l015" src="https://github.com/user-attachments/assets/fe4bff9a-3655-44af-bec8-6a0adb8cc0ee" />  
 
-*Figure 2:*
+*Figure 2: Id–Vds for a specific sized device*  
 
+For the same device, we now plot drain current vs. Vgs. This sweep is a good way to see the threshold voltage Vt, which is often around 0.7V in ideal conditions, since that is when the curve rises steeply.
 <img width="1855" height="1045" alt="day2_nfet_idvgs" src="https://github.com/user-attachments/assets/9fd05abe-4630-4ddd-b6a6-4139613498d8" />  
 
-*Figure 3:*
+*Figure 3: Id–Vgs transfer characteristic*
 
 ## Day 3
+Now, the sweep is being driven with a square-wave input over a 10ns window. Blue = input, and red = output. The output is being inverted, albeit with a bit of delay, and this can be used to measure propagation delay and rise/fall times which is very important to ensure a stable circuit design. 
+
 <img width="1855" height="1045" alt="day3_inv_transient" src="https://github.com/user-attachments/assets/78800f2f-7b80-4ff7-817b-0d14409b1725" />  
 
-*Figure 4: Inverse Transient*
+*Figure 4: Inverter transient (time-domain) response*
 
+This sweep represents a full inverter rather than a single transistor. It is a voltage transfer characteristic, which is unique to this circuit, and it defines the output voltage as a function of the input voltage. 
 <img width="1855" height="1045" alt="day3_vtc" src="https://github.com/user-attachments/assets/396e29ef-27e9-418b-a0de-c87e84af47f8" />  
 
-*Figure 5: VTC*
+*Figure 5: CMOS inverter Voltage Transfer Characteristic (VTC)*
 
 ## Day 4
+This is similar to the Day 3 voltage transfer characteristic, but the idea here is to find unity-gain points (i.e. where the dVout/dVin = -1). From these points, the noise margins can be calculated. For MOSFET, it is the NMH (High Margin Noise) and NML (Low Noise Margin) and it describes the variation in input voltage a circuit can handle before the output will be wrong.
 
 <img width="1855" height="1045" alt="day4_inv_noisemargin" src="https://github.com/user-attachments/assets/b42cd54d-3316-4f0f-b2ae-301684194798" />  
 
 *Figure 6: Inverse Noise Margin*
 
 ## Day 5
+The idea here is to see differences in devices caused by mismatches in the process and manufacturing (i.e. if the fabrication introduced some variations, how does the design behave).
 
 <img width="1855" height="1045" alt="day5_devicevariation" src="https://github.com/user-attachments/assets/035410cc-4bda-4428-8233-d297cb04793e" />  
 
 *Figure 7: Device Variation*
+
+Finally, we have six voltage transfer characteristic curves being run at different supply voltages. The observation is that as Vdd decreases, the curves compress toward the origin, which means there is a smaller swing in the output voltage. Thus, lowering the supply voltage changes a MOSFET's behaviour inherently, and it is something to consider when working with low-power or low-voltage designs.
 
 <img width="1855" height="1045" alt="day5_supplyvariation" src="https://github.com/user-attachments/assets/419b7cc2-aff7-4ab8-834b-0d7b9f4effbf" />  
 
