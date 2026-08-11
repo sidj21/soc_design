@@ -419,3 +419,18 @@ Finally, we have six voltage transfer characteristic curves being run at differe
 *Figure 8: Supply Variation*
 
 </details>
+
+<details>
+
+<summary>Day 7 - Floorplanning using OpenROAD </summary> 
+
+## OpenROAD     
+> The OpenROAD documents from background to analysis are available in this folder:   
+> https://github.com/sidj21/soc_design/tree/main/OpenROAD
+
+Quick links are listed here, in order:
+1. [OpenROAD Background](https://github.com/sidj21/soc_design/blob/main/OpenROAD/01-background.md)
+2. [OpenROAD Installation](https://github.com/sidj21/soc_design/blob/main/OpenROAD/02-installation.md)
+3. [OpenROAD Analysis](https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md)
+
+</details>
