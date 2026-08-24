@@ -454,4 +454,33 @@ OpenLANE is a tool that puts these three ideas together and provides an automate
 
 *Figure 1: [OpenLANE Flow](https://dl.acm.org/doi/epdf/10.1145/3400302.3415735)*
 
+## Setup
+
+The OpenLANE tool mostly works within its designs folder, similar to OpenROAD. At minimum, the RTL code for the design to be translated into GDSII needs to be provided, as well as a configuration file for the process. Apart from the configuration file, there is no human in the loop.
+```
+designs/
+└── picorv32a/
+    ├── config.tcl          # Main configuration file (or config.tcl / config.yaml)
+    ├── src/                # Directory for all source code
+    ├── pin_layout.cfg      # Optional file for custom I/O pin placement
+	├── macro.json			# Optional file for hardening macro configurations
+    └── runs/				# Folder where OpenLANE places results          
+```
+
+The following GitHub Codespace (cloud environment) was used for this section:  
+https://github.com/vsdip/vsd-openlane
+
+The initial commands to prepare the design are as follows:
+```
+cd ~/Desktop/OpenLane
+make mount
+./flow.tcl -interactive
+package require openlane 1.0.2
+prep -design picorv32
+```
+
+<img width="947" height="461" alt="image" src="https://github.com/user-attachments/assets/cd4133ee-be57-4a83-8c72-c0c91d7e633d" />
+
+*Figure 2: Preparing the `picorv32a` Design (GitHub Codespace Screenshot)*
+
 </details>
