@@ -548,6 +548,17 @@ def read ./def/picorv32a.def
 
 *Figure 8: Zooming in on Floorplanning Reuslts (sky130 standard cells visible)*
 
+### Die Area 
+From Figure 6, the floorplan result file `picorv32a.def` can help us calculate the die area. 
+```
+DESIGN picorv32a ;
+UNITS DISTANCE MICRONS 1000 ;
+DIEAREA ( 0 0 ) ( 1279175 1289895 ) ;
+
+Area of Die = Die Width (Microns) x Die Height (Microns) 
+Area of Die = (1279175 / 1000) x (1289895 / 1000)
+Area of Die = 1650001 Square Microns
+```
 
 
 </details>
