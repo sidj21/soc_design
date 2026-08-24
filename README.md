@@ -483,4 +483,29 @@ prep -design picorv32
 
 *Figure 2: Preparing the `picorv32a` Design (GitHub Codespace Screenshot)*
 
+## Synthesis
+
+The command to begin synthesis with Yosys and ABC is simply:  
+```run_synthesis```
+
+<img width="947" height="456" alt="image" src="https://github.com/user-attachments/assets/da65f269-8681-4101-957e-7b74d80fe5a8" />
+
+*Figure 3: Synthesis command successful - left result in runs/ folder*
+
+Navigating to the runs folder:
+```
+cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/reports/synthesis
+nano 1-synthesis_dff.stat
+```
+
+### Flop Ratio 
+```
+Flop Ratio = Number of D Flip-Flop Cells / Total Number of Cells
+Flop Ratio = 1613 / 18508
+Flop Ratio = 8.715%
+```
+<img width="947" height="459" alt="image" src="https://github.com/user-attachments/assets/8ec92d06-5770-4416-a434-47e6fe5fcefe" />
+
+*Figure 4: `picorv32a` design statistics*
+
 </details>
