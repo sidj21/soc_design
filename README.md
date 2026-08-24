@@ -594,6 +594,22 @@ def read picorv32a.def
 
 *Figure 12: The floorplan from earlier has been populated with standard logic cells*
 
+## Routing
 
+To show the "no human in the loop" workflow, the following command can be run in the Codespace. This places the final results that marks the end of physical design into `results/final` and the chip can be visualized using Magic in the same way as before.
+```
+cd ~/Desktop/OpenLane
+make mount
+./flow.tcl -design picorv32a -verbose 1
+cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/results/final
+```
+
+<img width="948" height="455" alt="image" src="https://github.com/user-attachments/assets/7f570936-441f-493d-8446-51e18d8b1f25" />
+
+*Figure 13: RTL to GDSII Flow Complete with OpenLANE*
+
+<img width="959" height="473" alt="image" src="https://github.com/user-attachments/assets/d142113c-4a46-4d0e-b1b2-fdb2f878c0a9" />
+
+*Figure 14: Visualization of Routed Components (we know that `dfxtp_1` is a D Flip Flop from the flop ratio calculation!)*
 
 </details>
