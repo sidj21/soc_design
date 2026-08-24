@@ -560,5 +560,40 @@ Area of Die = (1279175 / 1000) x (1289895 / 1000)
 Area of Die = 1650001 Square Microns
 ```
 
+## Placement
+
+```
+run_placement
+```
+
+<img width="947" height="455" alt="image" src="https://github.com/user-attachments/assets/f238df5c-f994-4c3a-86f3-894cba426940" />
+
+*Figure 9: Run placement command*
+
+Navigating to the placement results directory, we can launch the Magic tool again to visualize the placement:
+```
+cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/results/placement
+magic -T /home/vscode/.ciel/sky130A/libs.tech/magic/sky130A.tech
+```
+
+Then, in the `tkcon 2.3 Main` menu that pops up:
+```
+lef read ../../tmp/merged.nom.lef
+def read picorv32a.def
+```
+
+<img width="947" height="458" alt="image" src="https://github.com/user-attachments/assets/6fc4d96b-9b7a-41c8-a57c-e2a8e06d22b1" />
+
+*Figure 10: Reading `.lef` file in the `tkcon 2.3 Main` menu*
+
+<img width="946" height="128" alt="image" src="https://github.com/user-attachments/assets/7eadd94a-5a4d-4d8e-9d6c-a54741c1fc51" />
+
+*Figure 11: Reading `.def` file in the `tkcon 2.3 Main` menu*
+
+<img width="947" height="461" alt="image" src="https://github.com/user-attachments/assets/a689cedb-e800-42ef-aafd-a997f830f757" />
+
+*Figure 12: The floorplan from earlier has been populated with standard logic cells*
+
+
 
 </details>
