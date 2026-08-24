@@ -498,7 +498,8 @@ cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/reports/syn
 nano 1-synthesis_dff.stat
 ```
 
-### Flop Ratio 
+### Flop Ratio
+The VSDIAT lectures pointed out flop ratio being an important characteristic in physical design. A higher flop ratio means a more register-intensive design, which could bring more clock tree power, area utilization, and routing congestion. 
 ```
 Flop Ratio = Number of D Flip-Flop Cells / Total Number of Cells
 Flop Ratio = 1613 / 18508
@@ -507,5 +508,46 @@ Flop Ratio = 8.715%
 <img width="947" height="459" alt="image" src="https://github.com/user-attachments/assets/8ec92d06-5770-4416-a434-47e6fe5fcefe" />
 
 *Figure 4: `picorv32a` design statistics*
+
+## Floorplanning
+
+```
+run_floorplan
+```
+<img width="947" height="458" alt="image" src="https://github.com/user-attachments/assets/e1e596f5-b815-4efe-b8f0-2165ef9abc7d" />
+
+*Figure 5: `picorv32a` flooprlan command*
+
+Navigating to the floorplanning results:
+```
+cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/results/floorplan
+less picorv32a.def
+```
+
+<img width="947" height="460" alt="image" src="https://github.com/user-attachments/assets/2f601773-4fa3-4721-a5cd-880b1acd46a3" />
+
+*Figure 6: Floorplanning output of `picorv32a` (`.def` file)*
+
+We can also visualize the floorplanning process using the Magic tool:
+```
+cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/results/floorplans
+magic -T /home/vscode/.ciel/sky130A/libs.tech/magic/sky130A.tech
+```
+
+Then, in the `tkcon 2.3 Main` menu that pops up:
+```
+lef read ../../tmp/merged.nom.lef
+def read ./def/picorv32a.def
+```
+
+<img width="947" height="460" alt="image" src="https://github.com/user-attachments/assets/26186102-1df0-47db-86cd-f3a24b709189" />
+
+*Figure 7: Visualizing Floorplanning Results*
+
+<img width="947" height="460" alt="image" src="https://github.com/user-attachments/assets/3caeb79a-20f1-4b76-8e28-302bf923ef67" />
+
+*Figure 8: Zooming in on Floorplanning Reuslts (sky130 standard cells visible)*
+
+
 
 </details>
