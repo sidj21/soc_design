@@ -434,3 +434,24 @@ Quick links are listed here, in order:
 3. [OpenROAD Analysis](https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md)
 
 </details>
+
+<details>
+
+<summary>Day 8 - ASIC Design with OpenLANE </summary> 
+
+## OpenLANE
+
+There are three main requirements for open-source ASIC design:
+1. RTL Intellectual Properties (IP)
+2. Electronic Design and Automation (EDA) Tools
+3. Process Design Kit (PDK) data
+
+Each of these aspects can be found individually. For instance, IP cores can be found on websites like [OpenCores](https://opencores.org/) or even GitHub. There are various EDA tools for different parts of the design process, such as Yosys for synthesis and GTKWave for simulation. PDKs such as Google's Skywater based on 130nm technology is available open source.
+
+OpenLANE is a tool that puts these three ideas together and provides an automated flow for ASIC design. It provides a design flow where no human is needed in the RTL to GDSII flow. This section will take a look at analyzing the RISC-V core `picorv32` design using OpenLANE.
+
+<img width="758" height="385" alt="image" src="https://github.com/user-attachments/assets/547c1c91-3a30-49d0-be91-85e06434fd3f" />
+
+*Figure 1: [OpenLANE Flow](https://dl.acm.org/doi/epdf/10.1145/3400302.3415735)*
+
+</details>
