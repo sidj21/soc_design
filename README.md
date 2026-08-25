@@ -697,4 +697,80 @@ Fall Cell Delay = Time @ Output 50% - Time @ Input 50% (Falling Edge)
 Rise Cell Delay = 0.00377 ns
 ```
 
+## DRC Tests in Magic
+
+Magic can also be used to run Design Rule Checks (DRC). It is an automated process where the tool goes through the physical layout and checks for any rule violations. An obvious rule violations would be metal components overlapping, but the set of rules can be modified by designers for specific projects. The SkyWater 130nm PDK specifies its rules here: https://skywater-pdk.readthedocs.io/en/main/rules/background.html. 
+```
+cd  
+wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz  
+tar xfz drc_tests.tgz  
+cd drc_tests  
+magic -d XR &
+```
+
+<img width="888" height="354" alt="image" src="https://github.com/user-attachments/assets/9f7802fd-bef3-40af-b742-74a111bcd66c" />
+
+*Figure 19: Example of DRC Issue (Met 3.2 refers to [Spacing of Metal 3 to Metal 3](https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html#m3))*
+
+To refresh the `.tech` file after fixing the DRC rules:
+```
+tech load sky130A.tech
+drc check
+```
+
+Example of fixing `Met 3.1` issue using the Tkcon editor:
+```
+% box
+Root cell box:
+           width x height  (   llx,  lly  ), (   urx,  ury  )  area (units^2)
+
+microns:    1.70 x 0.42    (  6.94,  11.18), (  8.64,  11.60)  0.71      
+lambda:   170.00 x 42.00   ( 694.00,  1118.00), ( 864.00,  1160.00)  7140.00   
+internal:    340 x 84      (  1388,  2236 ), (  1728,  2320 )  28560     
+% box grow n 0.05um
+% box grow s 0.05um
+% paint met3
+% drc check
+```
+
+Similarly, here is an outline of the fixes for the other components:
+| Rule | What it checks | Typical value | Fix used |
+|------|-----------------|----------------|------------------|
+| m3.1 | Minimum width of met3 | 0.30 µm | Select the thin met3 shape and stretch it wider until it meets the minimum |
+| m3.2 | Minimum spacing between two met3 shapes | 0.30 µm | Move the two shapes further apart, or merge them into one shape if they're meant to be connected |
+| m3.3 | Wide-metal spacing rule (extra spacing required near a "huge" met3 shape) | wider spacing near large met3 areas | Pull the neighboring metal further back from the edge of the large shape |
+| m3.4 | Via2 enclosure by met3 (met3 must extend past the via2 edge by a minimum amount) | small enclosure value | Grow the met3 rectangle so it fully surrounds the via2 cut on all sides by the required margin |
+| m3.5 | Minimum area of a met3 shape | small µm² minimum | Enlarge the shape (width and/or length) until its area clears the minimum |
+| m3.6 | Minimum area of a met3 hole (a gap/notch cut into met3) | small µm² minimum | Either fill in the hole (make met3 solid there) or enlarge the hole so it's no longer below minimum |
+
+<img width="530" height="365" alt="image" src="https://github.com/user-attachments/assets/42c841ed-8512-4ed7-9cd9-13e295cf197c" />
+
+*Figure 20: DRC Issues Fixed*
+
+## Custom LEF for OpenLANE
+
+Continuing with our standard cell design from before, after we have characterized our CMOS inverter using ngspice, we can now create a `.lef` file to use for the design of `picorv32a`.
+
+```
+cd Desktop/OpenLane/vsdstdcelldesign
+magic -T sky130A.tech sky130_inv.mag &
+
+# In the Tkcon editor 
+grid 0.46um 0.34um 0.23um 0.17um
+save sky130_inv.mag
+exit
+
+# In the Terminal 
+magic -T sky130A.tech sky130_inv.mag 
+
+# In the Tkcon editor
+lef write 
+```
+
+<img width="947" height="461" alt="image" src="https://github.com/user-attachments/assets/95e62f41-88eb-44f7-8235-bf1ba7236c84" />
+
+*Figure 20: Preparing `.lef` file*
+
 </details>
+
+
