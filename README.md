@@ -661,19 +661,25 @@ plot y vs time a
 
 ### Characterizing the Transient Analysis
 
-*1. Rise Time*
+*1. Rise Time*  
+<img width="248" height="56" alt="image" src="https://github.com/user-attachments/assets/17c44518-adbf-42ac-9a7e-e63e641611e5" />
 ```
 Rise Time = Rise Time = Time @ Output 80% - Time @ Output 20%
+x0 = 2.16162 E-09 & y0 = 0.666
+x1 = 2.20909 E-09 & y1 = 2.64
+Rise Time = 2.20909 E-09 - 2.16162 E-09
+Rise Time = 0.04747 ns
+```
+*2. Fall Transition Time*  
+<img width="252" height="46" alt="image" src="https://github.com/user-attachments/assets/0bd49b43-208c-4f36-bef4-41a1a2d4205d" />
+```
+Fall Transition Time = Time @ Output 20% - Time @ Output 80%
+x0 = 4.06831 E-09 & y0 = 0.666
+x1 = 4.04103 E-09 & y1 = 2.64
 Rise Time = 2.20337 E-09 - 2.16216 E-09
-Rise Time = 0.04121 ns
+Fall Transition Time = 0.02728 ns
 ```
-*2. Fall Transition Time*
-```
-Fall Transition Time = Time @ Output 80% - Time @ Input 20% (Falling Edge)
-Rise Time = 2.20337 E-09 - 2.16216 E-09
-Fall Transition Time =
-```
-*3. Rise Cell Delay*
+*3. Rise Cell Delay*  
 <img width="600" height="56" alt="image" src="https://github.com/user-attachments/assets/811eb3c0-7631-4db7-bac3-d9b3d009a353" />
 ```
 Rise Cell Delay = Time @ Output 50% - Time @ Input 50% (Rising Edge)
@@ -682,7 +688,7 @@ x1 Input 50% = 2.15135 E-09 & y1 = 1.64975
 Rise Cell Delay = 0.03243 ns
 ```
 
-*4. Fall Cell Delay*
+*4. Fall Cell Delay*  
 <img width="230" height="47" alt="image" src="https://github.com/user-attachments/assets/4980efcb-b60e-4133-86e8-ecc39da7b430" />
 ```
 x0 = 4.05415 E-09 & y0 = 1.661
