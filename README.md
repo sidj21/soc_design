@@ -646,5 +646,49 @@ ext2spice
 
 *Figure 16: Preparing CMOS design for SPICE*
 
+Upcoming commands for analysis:
+```
+ngspice sky130_inv.spice
+plot y vs time a
+```
+<img width="947" height="460" alt="image" src="https://github.com/user-attachments/assets/725e3b9c-cea0-4dde-b285-dbb93b801db6" />
+
+*Figure 17: SPICE Initial output after opening the .spice file*
+
+<img width="946" height="459" alt="image" src="https://github.com/user-attachments/assets/85244756-df0d-42f4-89ef-e5859adeda1b" />
+
+*Figure 18: Plotting the Ngspice Model*
+
+### Characterizing the Transient Analysis
+
+*1. Rise Time*
+```
+Rise Time = Rise Time = Time @ Output 80% - Time @ Output 20%
+Rise Time = 2.20337 E-09 - 2.16216 E-09
+Rise Time = 0.04121 ns
+```
+*2. Fall Transition Time*
+```
+Fall Transition Time = Time @ Output 80% - Time @ Input 20% (Falling Edge)
+Rise Time = 2.20337 E-09 - 2.16216 E-09
+Fall Transition Time =
+```
+*3. Rise Cell Delay*
+<img width="600" height="56" alt="image" src="https://github.com/user-attachments/assets/811eb3c0-7631-4db7-bac3-d9b3d009a353" />
+```
+Rise Cell Delay = Time @ Output 50% - Time @ Input 50% (Rising Edge)
+x0 Output 50% = 2.18378 E-09 & y0 = 1.64975
+x1 Input 50% = 2.15135 E-09 & y1 = 1.64975
+Rise Cell Delay = 0.03243 ns
+```
+
+*4. Fall Cell Delay*
+<img width="230" height="47" alt="image" src="https://github.com/user-attachments/assets/4980efcb-b60e-4133-86e8-ecc39da7b430" />
+```
+x0 = 4.05415 E-09 & y0 = 1.661
+x1 = 4.05038 E-09 & y1 = 1.661
+Fall Cell Delay = Time @ Output 50% - Time @ Input 50% (Falling Edge)
+Rise Cell Delay = 0.00377 ns
+```
 
 </details>
