@@ -612,4 +612,39 @@ cd ~/Desktop/openlane/designs/picorv32a/runs/RUN_2026.08.24_03.29.49/results/fin
 
 *Figure 14: Visualization of Routed Components (we know that `dfxtp_1` is a D Flip Flop from the flop ratio calculation!)*
 
+## Standard Cell Design
+
+The bonus with OpenLANE is that you can provide your own cells to use in the RTL to GDSII flow. This section will go over designing the `picorv32a` design with custom CMOS inverter cells from the following repository: https://github.com/nickson-jose/vsdstdcelldesign. 
+
+Setting up in the GitHub Codespace:
+```
+cd ~/Desktop/OpenLane
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+
+Now we can copy over the standard SKY130A tech file to our cloned folder and view the custom cell in Magic.
+```
+cp /home/vscode/.ciel/sky130A/libs.tech/magic/sky130A.tech ./vsdstdcelldesign
+magic -T sky130A.tech sky130_inv.mag &
+```
+
+<img width="947" height="462" alt="image" src="https://github.com/user-attachments/assets/b55de9c4-86ec-49a6-aeea-d4ed14329d90" />
+
+*Figure 15: CMOS Inverter in Magic (NMOS connected to GND at the bottom, PMOS connected to VDD at the top)*  
+*tkcon confirms that the components are indeed connected and Magic shows this with the white highlight*
+
+Now, to test the functionality of the CMOS inverter, we can extract the design to simulate it in SPICE.  
+In the `tkcon 2.3 Main` window:
+```
+pwd -- Make sure we are in the vsdstdcelldesign folder
+extract all 
+ext2spice cthresh 0 rthresh 0
+ext2spice
+```
+
+<img width="442" height="132" alt="image" src="https://github.com/user-attachments/assets/4ca28126-1915-4efd-9534-8c72cdb8781f" />
+
+*Figure 16: Preparing CMOS design for SPICE*
+
+
 </details>
