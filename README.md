@@ -771,6 +771,30 @@ lef write
 
 *Figure 20: Preparing `.lef` file*
 
+Now, we can move our `.lef` file into our OpenLANE designs folder, specifically in the picorv32a `src` folder.
+```
+cp sky130_inv.lef /home/vscode/Desktop/OpenLane/designs/picorv32a/src
+```
+
+Add the following environment variables to the `config.tcl` found in the `picorv32a` design folder to utilize our new `.lef` file.
+```
+set ::env(LIB_SYNTH) "./designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(LIB_MIN) "./designs/picorv32a/src/sky130_fd_sc_hd__fast.lib"
+set ::env(LIB_MAX) "./designs/picorv32a/src/sky130_fd_sc_hd__slow.lib"
+set ::env(LIB_TYPICAL) "./designs/picorv32a/src/sky130_fd_sc_hd__typical.lib"
+set ::env(EXTRA_LEFS) [glob ./designs/picorv32a/src/*.lef]
+```
+
+The broad strokes remain the same for the OpenLANE flow, but now we must specify our custom `.lef` file:
+```
+set lefs [glob ./designs/picorv32a/src/*.lef]
+add_lefs -src $lefs
+```
+
+<img width="639" height="313" alt="image" src="https://github.com/user-attachments/assets/761617f9-16ec-46d0-80ea-ace6f22bf4ee" />
+
+*Figure 21: Running synthesis with custom inverter cell*
+
 </details>
 
 
