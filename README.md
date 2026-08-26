@@ -795,6 +795,12 @@ add_lefs -src $lefs
 
 *Figure 21: Running synthesis with custom inverter cell*
 
+After ensuring the synthesis has included our custom `.lef`, the remaining commands are the same as covered before in the OpenLANE synthesis to placement sections. From the routed circuit, we can see our instances of `sky130_vsdinv` showing up.
+<img width="650" height="424" alt="image" src="https://github.com/user-attachments/assets/bb62e65b-fc64-42f1-b5aa-c0253a5a7718" />
+
+*Figure 22: Custom `sky130_vsdinv` inverter instances in routed `picorv32a`*
+
+
 </details>
 
 
