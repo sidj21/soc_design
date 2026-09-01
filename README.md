@@ -992,6 +992,18 @@ Process corners where we do see an improvement is the Total Negative Slack (TNS)
 | sky130_fd_sc_hd__ss_n40C_1v44 |	−331.3 ns → −219.1 ns  |
 ------------------------------------------------------------
 ```
+
+### Outputs
+The scripts and outputs have been uploaded to this repository's `STA Analysis - Day 9` with the following structure: 
+```
+STA Analysis - Day 9/
+├── scripts/
+│   └── sta_post_place_across_pvt.tcl
+|	└── sta_post_synthesis_across_pvt.tcl
+├── output/
+│   ├── post_place/
+│   ├── post_synth/
+```
 	
 </details>
 
