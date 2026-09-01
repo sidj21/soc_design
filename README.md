@@ -803,4 +803,79 @@ After ensuring the synthesis has included our custom `.lef`, the remaining comma
 
 </details>
 
+<details>
+<summary>Day 9 - VSDBabySoC Physical Design </summary>
+
+### Physical Design Process
+> The physical design process from RTL synthesis to route was completed with OpenROAD in the following directory:
+> https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md
+
+This section aims to apply Static Timing Analysis (STA) after two critical points in the physical design process: post-synthesis STA and post-placement STA. This is done with the help of the OpenROAD Flow Scripts tool and the database (`.odb`) and constraint (`.sdc`) files it generated as a result of the previously mentioned work.   
+
+The STA is applied through many different process, voltage, and temperature (PVT) configurations for which the `.lib` files can be downloaded: https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_sc_hd. Finally, since there are 16 target `.lib` files, a `.tcl` script was written to automate the process and generate easily parseable `.csv` data. 
+
+Thus, the same directory structure is assumed and iterated upon from the previous work:
+```
+├── OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/           
+│   ├── rvmyth.v           
+│   ├── rvmyth_gen.v        
+│   ├── clk_gate.v       
+|   ├── vsdbabysoc.v             
+```
+```
+├── OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/           
+│   ├── gds/
+|   ├────── avsddac.gds
+|   ├────── avsdpll.gds
+|   ├── include/
+|   ├────── sandpiper.vh
+|   ├────── sandpiper_gen.vh
+|   ├────── sp_default.vh
+|   ├────── sp_verilog.vh
+│   ├── lef/
+|   ├────── avsddac.lef
+|   ├────── avsdpll.lef
+│   ├── lib/
+|   ├────── avsddac.lib
+|   ├────── avsdpll.lib
+│   ├── vsdbabysoc_synthesis.sdc
+│   ├── macro.cfg
+│   ├── pin_order.cfg
+│   ├── config.mk
+```
+
+### Scripts
+The `.tcl` scripts will be available in the `scripts` directory of this repository. They were placed in the `OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/` directory. At first, a smaller script was tested with the typical 25C 1.80V process corner and it was successful. OpenROAD properly showed the design area (754802 um^2) and utilization (31%).
+
+<img width="1536" height="867" alt="image" src="https://github.com/user-attachments/assets/c6b44725-a185-43d4-af5c-3df9e6c4438a" />
+
+*Figure 1: Testing Post-Placement STA with OpenROAD*
+
+Then, the automated script that would sweep the 16 different PVTs from their respective `.lib` files was executed. 
+```
+cd OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/
+openroad sta_post_place_across_pvt.tcl
+```
+
+<img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/b0b06b7f-856e-4164-b3d5-c3cd5bbab3e8" />
+
+*Figure 2: Post-Placement STA Across PVT (Start of Command)*
+
+<img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/a533595a-f000-49fd-84d8-b94c577ba697" />
+
+*Figure 3: Post-Placement STA Across PVT (End of Command)*
+
+The process for the post-synthesis STA across PVT was not much different. All that needed to be changed were the database file (`.odb`) and constraint file (`.sdc`) being read in the script. For instance, in the second script for the post-synthesis STA, the only notable changes were:
+```
+set ODB_FILE \
+    "$RESULTS_DIR/1_synth.odb"
+
+set SDC_FILE \
+    "$RESULTS_DIR/1_synth.sdc"
+```
+
+### Visualized Data
+
+	
+</details>
 
