@@ -1,0 +1,55 @@
+Startpoint: core.CPU_src2_value_a3[2]$_DFF_P_
+            (rising edge-triggered flip-flop clocked by clk)
+Endpoint: core.CPU_Xreg_value_a4[10][26]$_SDFFE_PP0P_
+          (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                    0.0000    0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (ideal)
+                    0.0000    0.0000    0.0000 ^ core.CPU_src2_value_a3[2]$_DFF_P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+     8    0.0189    0.2890    0.6318    0.6318 ^ core.CPU_src2_value_a3[2]$_DFF_P_/Q (sky130_fd_sc_hd__dfxtp_1)
+                    0.2890    0.0000    0.6318 ^ _05848_/A (sky130_fd_sc_hd__clkbuf_1)
+    10    0.0259    0.4932    0.5210    1.1528 ^ _05848_/X (sky130_fd_sc_hd__clkbuf_1)
+                    0.4932    0.0000    1.1528 ^ _07825_/A (sky130_fd_sc_hd__inv_1)
+     2    0.0055    0.1041    0.1948    1.3475 v _07825_/Y (sky130_fd_sc_hd__inv_1)
+                    0.1041    0.0000    1.3475 v _11038_/A (sky130_fd_sc_hd__ha_1)
+     4    0.0076    0.1016    0.5619    1.9095 v _11038_/SUM (sky130_fd_sc_hd__ha_1)
+                    0.1016    0.0000    1.9095 v _05732_/A (sky130_fd_sc_hd__nor2b_1)
+     3    0.0072    0.2620    0.2872    2.1966 ^ _05732_/Y (sky130_fd_sc_hd__nor2b_1)
+                    0.2620    0.0000    2.1966 ^ _05736_/A1 (sky130_fd_sc_hd__o211ai_1)
+     2    0.0034    0.0972    0.1983    2.3949 v _05736_/Y (sky130_fd_sc_hd__o211ai_1)
+                    0.0972    0.0000    2.3949 v _05744_/A1 (sky130_fd_sc_hd__a2111oi_1)
+     4    0.0088    0.9371    0.9194    3.3143 ^ _05744_/Y (sky130_fd_sc_hd__a2111oi_1)
+                    0.9371    0.0000    3.3143 ^ _05754_/A1 (sky130_fd_sc_hd__o211ai_1)
+     2    0.0036    0.1529    0.3699    3.6841 v _05754_/Y (sky130_fd_sc_hd__o211ai_1)
+                    0.1529    0.0000    3.6841 v _06201_/A (sky130_fd_sc_hd__and2_1)
+     5    0.0104    0.0861    0.3070    3.9911 v _06201_/X (sky130_fd_sc_hd__and2_1)
+                    0.0861    0.0000    3.9911 v _06332_/A2 (sky130_fd_sc_hd__o31ai_1)
+     1    0.0044    0.3863    0.4514    4.4425 ^ _06332_/Y (sky130_fd_sc_hd__o31ai_1)
+                    0.3863    0.0000    4.4425 ^ _06333_/B (sky130_fd_sc_hd__xnor2_1)
+     1    0.0040    0.0809    0.1876    4.6301 v _06333_/Y (sky130_fd_sc_hd__xnor2_1)
+                    0.0809    0.0000    4.6301 v _06373_/A2 (sky130_fd_sc_hd__a211oi_2)
+     5    0.0103    0.4065    0.4876    5.1177 ^ _06373_/Y (sky130_fd_sc_hd__a211oi_2)
+                    0.4065    0.0000    5.1177 ^ _06374_/A (sky130_fd_sc_hd__buf_2)
+     9    0.0209    0.1715    0.3738    5.4916 ^ _06374_/X (sky130_fd_sc_hd__buf_2)
+                    0.1715    0.0000    5.4916 ^ _10241_/B2 (sky130_fd_sc_hd__o221ai_1)
+     1    0.0015    0.0930    0.1509    5.6425 v _10241_/Y (sky130_fd_sc_hd__o221ai_1)
+                    0.0930    0.0000    5.6425 v core.CPU_Xreg_value_a4[10][26]$_SDFFE_PP0P_/D (sky130_fd_sc_hd__dfxtp_1)
+                                        5.6425   data arrival time
+
+                    0.0000   11.0000   11.0000   clock clk (rise edge)
+                              0.0000   11.0000   clock network delay (ideal)
+                              0.0000   11.0000   clock reconvergence pessimism
+                                       11.0000 ^ core.CPU_Xreg_value_a4[10][26]$_SDFFE_PP0P_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                             -0.2676   10.7324   library setup time
+                                       10.7324   data required time
+-------------------------------------------------------------------------------------
+                                       10.7324   data required time
+                                       -5.6425   data arrival time
+-------------------------------------------------------------------------------------
+                                        5.0899   slack (MET)
+
+
