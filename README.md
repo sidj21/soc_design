@@ -843,7 +843,6 @@ Thus, the same directory structure is assumed and iterated upon from the previou
 │   ├── pin_order.cfg
 │   ├── config.mk
 ```
-
 ### Scripts
 The `.tcl` scripts will be available in the `scripts` directory of this repository. They were placed in the `OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/` directory. At first, a smaller script was tested with the typical 25C 1.80V process corner and it was successful. OpenROAD properly showed the design area (754802 um^2) and utilization (31%).
 
@@ -876,6 +875,60 @@ set SDC_FILE \
 
 ### Visualized Data
 
+#### Post-Synthesis STA Across PVT
+
+| PVT Library (Sky130hd) | WNS (ns) | TNS (ns) | Worst Setup Slack (ns) | Worst Hold Slack (ns) |
+| :--- | :---: | :---: | :---: | :---: |
+| sky130_fd_sc_hd__tt_025C_1v80 | 0.0000 | 0.0000 | 7.4919 | 0.3096 |
+| sky130_fd_sc_hd__tt_100C_1v80 | 0.0000 | 0.0000 | 7.5563 | 0.3145 |
+| sky130_fd_sc_hd__ff_100C_1v65 | 0.0000 | 0.0000 | 8.2590 | 0.2491 |
+| sky130_fd_sc_hd__ff_100C_1v95 | 0.0000 | 0.0000 | 8.8909 | 0.1960 |
+| sky130_fd_sc_hd__ff_n40C_1v56 | 0.0000 | 0.0000 | 7.4025 | 0.2915 |
+| sky130_fd_sc_hd__ff_n40C_1v65 | 0.0000 | 0.0000 | 7.9060 | 0.2551 |
+| sky130_fd_sc_hd__ff_n40C_1v76 | 0.0000 | 0.0000 | 8.3438 | 0.2243 |
+| sky130_fd_sc_hd__ff_n40C_1v95 | 0.0000 | 0.0000 | 8.8426 | 0.1875 |
+| sky130_fd_sc_hd__ss_100C_1v40 | 0.0000 | 0.0000 | 0.5913 | 0.9053 |
+| sky130_fd_sc_hd__ss_100C_1v60 | 0.0000 | 0.0000 | 3.9628 | 0.6420 |
+| sky130_fd_sc_hd__ss_n40C_1v28 | **-17.4120** | **-6628.3179** | **-17.4120** | 1.8296 |
+| sky130_fd_sc_hd__ss_n40C_1v35 | **-8.6849** | **-2371.1794** | **-8.6849** | 1.3475 |
+| sky130_fd_sc_hd__ss_n40C_1v40 | **-4.7765** | **-1021.6699** | **-4.7765** | 1.1249 |
+| sky130_fd_sc_hd__ss_n40C_1v44 | **-2.5174** | **-331.2511** | **-2.5174** | 0.9909 |
+| sky130_fd_sc_hd__ss_n40C_1v60 | 0.0000 | 0.0000 | 2.6805 | 0.6628 |
+| sky130_fd_sc_hd__ss_n40C_1v76 | 0.0000 | 0.0000 | 5.0899 | 0.5038 |
+
+
+#### Post-Placement STA Across PVT
+| PVT Library (Sky130hd) | WNS (ns) | TNS (ns) | Worst Setup Slack (ns) | Worst Hold Slack (ns) |
+| :--- | :---: | :---: | :---: | :---: |
+| sky130_fd_sc_hd__tt_025C_1v80 | 0.0000 | 0.0000 | 7.4816 | 0.3089 |
+| sky130_fd_sc_hd__tt_100C_1v80 | 0.0000 | 0.0000 | 7.5707 | 0.3138 |
+| sky130_fd_sc_hd__ff_100C_1v65 | 0.0000 | 0.0000 | 8.2772 | 0.2474 |
+| sky130_fd_sc_hd__ff_100C_1v95 | 0.0000 | 0.0000 | 8.8848 | 0.1956 |
+| sky130_fd_sc_hd__ff_n40C_1v56 | 0.0000 | 0.0000 | 7.4665 | 0.2896 |
+| sky130_fd_sc_hd__ff_n40C_1v65 | 0.0000 | 0.0000 | 7.9396 | 0.2544 |
+| sky130_fd_sc_hd__ff_n40C_1v76 | 0.0000 | 0.0000 | 8.3628 | 0.2226 |
+| sky130_fd_sc_hd__ff_n40C_1v95 | 0.0000 | 0.0000 | 8.8467 | 0.1858 |
+| sky130_fd_sc_hd__ss_100C_1v40 | 0.0000 | 0.0000 | 0.6140 | 0.8811 |
+| sky130_fd_sc_hd__ss_100C_1v60 | 0.0000 | 0.0000 | 4.0389 | 0.6241 |
+| sky130_fd_sc_hd__ss_n40C_1v28 | **-17.9090** | **-7251.8400** | **-17.9090** | 1.7671 |
+| sky130_fd_sc_hd__ss_n40C_1v35 | **-8.7976** | **-2375.6600** | **-8.7976** | 1.2989 |
+| sky130_fd_sc_hd__ss_n40C_1v40 | **-4.7820** | **-888.6320** | **-4.7820** | 1.0878 |
+| sky130_fd_sc_hd__ss_n40C_1v44 | **-2.4837** | **-219.1430** | **-2.4837** | 0.9571 |
+| sky130_fd_sc_hd__ss_n40C_1v60 | 0.0000 | 0.0000 | 2.7781 | 0.6399 |
+| sky130_fd_sc_hd__ss_n40C_1v76 | 0.0000 | 0.0000 | 5.1094 | 0.4851 |
+
+#### Area / Floorplan
+| Type | Area (um^2) | Utilization (%) | 
+| :--- | :---: | :---: |
+| Post-Synthesis | 725,917 | 100% | 
+| Post-Placement | 754,802 | 31% |
+
+## Analysis 
+
+A couple of quick observations:
+* **Utilization:** The utilization at the synthesis stage is, by definition, the entire cell area. This is due to the fact that physical design happens later, and thus, no floorplan has been defined yet. It is more-so a placeholder at the post-synthesis stage, and post-placement has a real core area sized for routing. 
+* **Setup:** 4/16 process corners fail the setup slack: ss_n40C_1v28, 1v35, 1v40, 1v44. All of these represent a slower process at a relatively cold temperature (40C). However, in this set of `ss_n*` processes, the failures go away once the voltage climbs up to 1.6V.
+* **Hold:** There are no violations, but going from synthesis to placement, the slack does get lower. This might be due to placement accounting for wire parasitic compared to synthesis, which uses ideal zero-delay wires.  
 	
 </details>
 
