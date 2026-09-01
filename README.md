@@ -923,6 +923,19 @@ set SDC_FILE \
 | Post-Synthesis | 725,917 | 100% | 
 | Post-Placement | 754,802 | 31% |
 
+### Graphs
+#### Worst Negative Slack Across PVT
+<img width="1653" height="993" alt="wns" src="https://github.com/user-attachments/assets/54642343-8550-48fa-8164-5499c8bfd1d1" />
+
+#### Total Negative Slack Across PVT
+<img width="1655" height="995" alt="tns" src="https://github.com/user-attachments/assets/808a8023-b07b-4fc8-9b9b-f9705788e714" />
+
+#### Worst Setup Slack Across PVT
+<img width="1655" height="995" alt="wss" src="https://github.com/user-attachments/assets/18225de7-a497-4a44-a047-abba8a4e78df" />
+
+#### Worst Hold Slack Across PVT
+<img width="1655" height="995" alt="whs" src="https://github.com/user-attachments/assets/89e96337-2e12-424c-a501-2d232e8082f1" />
+
 ## Analysis 
 
 A couple of quick observations:
