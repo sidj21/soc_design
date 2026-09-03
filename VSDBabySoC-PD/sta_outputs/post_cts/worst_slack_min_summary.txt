@@ -1,0 +1,17 @@
+Library Worst_Min_Slack
+sky130_fd_sc_hd__tt_025C_1v80 0.3186
+sky130_fd_sc_hd__tt_100C_1v80 0.3204
+sky130_fd_sc_hd__ff_100C_1v65 0.2560
+sky130_fd_sc_hd__ff_100C_1v95 0.2029
+sky130_fd_sc_hd__ff_n40C_1v56 0.2996
+sky130_fd_sc_hd__ff_n40C_1v65 0.2641
+sky130_fd_sc_hd__ff_n40C_1v76 0.2318
+sky130_fd_sc_hd__ff_n40C_1v95 0.1947
+sky130_fd_sc_hd__ss_100C_1v40 0.9027
+sky130_fd_sc_hd__ss_100C_1v60 0.6389
+sky130_fd_sc_hd__ss_n40C_1v28 1.8008
+sky130_fd_sc_hd__ss_n40C_1v35 1.3323
+sky130_fd_sc_hd__ss_n40C_1v40 1.1150
+sky130_fd_sc_hd__ss_n40C_1v44 0.9795
+sky130_fd_sc_hd__ss_n40C_1v60 0.6579
+sky130_fd_sc_hd__ss_n40C_1v76 0.4920

@@ -1,0 +1,17 @@
+Library WNS
+sky130_fd_sc_hd__tt_025C_1v80 0.0000
+sky130_fd_sc_hd__tt_100C_1v80 0.0000
+sky130_fd_sc_hd__ff_100C_1v65 0.0000
+sky130_fd_sc_hd__ff_100C_1v95 0.0000
+sky130_fd_sc_hd__ff_n40C_1v56 0.0000
+sky130_fd_sc_hd__ff_n40C_1v65 0.0000
+sky130_fd_sc_hd__ff_n40C_1v76 0.0000
+sky130_fd_sc_hd__ff_n40C_1v95 0.0000
+sky130_fd_sc_hd__ss_100C_1v40 0.0000
+sky130_fd_sc_hd__ss_100C_1v60 0.0000
+sky130_fd_sc_hd__ss_n40C_1v28 -16.5580
+sky130_fd_sc_hd__ss_n40C_1v35 -8.0419
+sky130_fd_sc_hd__ss_n40C_1v40 -4.3410
+sky130_fd_sc_hd__ss_n40C_1v44 -2.1342
+sky130_fd_sc_hd__ss_n40C_1v60 0.0000
+sky130_fd_sc_hd__ss_n40C_1v76 0.0000
