@@ -804,7 +804,7 @@ After ensuring the synthesis has included our custom `.lef`, the remaining comma
 </details>
 
 <details>
-<summary>Day 9 - VSDBabySoC Physical Design </summary>
+<summary>Day 9 - VSDBabySoC Post-Synthesis & Post-Placement STA </summary>
 
 ### Physical Design Process
 > The physical design process from RTL synthesis to route was completed with OpenROAD in the following directory:
@@ -1005,5 +1005,76 @@ STA Analysis - Day 9/
 │   ├── post_synth/
 ```
 	
+</details>
+
+<details>
+<summary>Day 10 - VSDBabySoC Post-CTS & Post-Route STA </summary>
+
+### Important
+While dealing with routing issues with the VSDBabySoC, a lot of workarounds were applied to the `config.mk`. These included increasing the size of the die, and a custom `.tcl` script to hand-place the macros. Ultimately, a fix was made to the `avsddac.lef` file. Thus, the results for post-CTS and post-route STA analysis are fine-tuned for the workarounds and fixes made. They are not comparable to the post-synthesis and post-placement STA analysis as the core attributes of the chip changed. The best attempt will be made to analyze the findings.
+
+The following table shows the utilization factor changing from the analysis done in Day 9. It is still possible to plot all four STA analyses on the same chart, but the post-CTS and post-route will be too different for a meaningful analysis. In this section, we will move forward with post-CTS and post-route graphs only.
+
+#### Area / Utilization
+| Type | Area (um^2) | Utilization (%) | 
+| :--- | :---: | :---: |
+| Post-Synthesis / Post-Placement | ~726k–755k | 31 | 
+| Post-CTS / Post-Route | 933k | 7 |
+
+### Visualized Data
+
+#### Post-CTS STA Across PVT
+|PVT Library (Sky130hd) |WNS (ns)                          |TNS (ns)   |Worst Max Slack (ns)                              | Worst Min Slack (ns)|
+|-------|-----------------------------|------|---------------------------------------------|---------------|
+|sky130_fd_sc_hd__tt_025C_1v80|0                            |0     |7.465                                        |0.3177         |
+|sky130_fd_sc_hd__tt_100C_1v80|0                            |0     |7.5548                                       |0.3198         |
+|sky130_fd_sc_hd__ff_100C_1v65|0                            |0     |8.2628                                       |0.2551         |
+|sky130_fd_sc_hd__ff_100C_1v95|0                            |0     |8.873                                        |0.2024         |
+|sky130_fd_sc_hd__ff_n40C_1v56|0                            |0     |7.4489                                       |0.2994         |
+|sky130_fd_sc_hd__ff_n40C_1v65|0                            |0     |7.9231                                       |0.2633         |
+|sky130_fd_sc_hd__ff_n40C_1v76|0                            |0     |8.347                                        |0.2312         |
+|sky130_fd_sc_hd__ff_n40C_1v95|0                            |0     |8.8329                                       |0.1949         |
+|sky130_fd_sc_hd__ss_100C_1v40|0                            |0     |0.8596                                       |0.902          |
+|sky130_fd_sc_hd__ss_100C_1v60|0                            |0     |4.059                                        |0.6368         |
+|sky130_fd_sc_hd__ss_n40C_1v28|-16.6249                     |-6339.9839|-16.6249                                     |1.7987         |
+|sky130_fd_sc_hd__ss_n40C_1v35|-8.083                       |-2235.3291|-8.083                                       |1.334          |
+|sky130_fd_sc_hd__ss_n40C_1v40|-4.3728                      |-906.9581|-4.3728                                      |1.1159         |
+|sky130_fd_sc_hd__ss_n40C_1v44|-2.1636                      |-234.3673|-2.1636                                      |0.9776         |
+|sky130_fd_sc_hd__ss_n40C_1v60|0                            |0     |2.7336                                       |0.6559         |
+|sky130_fd_sc_hd__ss_n40C_1v76|0                            |0     |5.0836                                       |0.4912         |
+
+#### Post-Route STA Across PVT
+|PVT Library (Sky130hd) |WNS (ns)                          |TNS (ns)   |Worst Max Slack (ns)                              | Worst Min Slack (ns)|
+|-------|-----------------------------|------|---------------------------------------------|---------------|
+|sky130_fd_sc_hd__tt_025C_1v80|0                            |0     |5.9124                                       |0.3084         |
+|sky130_fd_sc_hd__tt_100C_1v80|0                            |0     |6.0434                                       |0.3145         |
+|sky130_fd_sc_hd__ff_100C_1v65|0                            |0     |6.966                                        |0.2501         |
+|sky130_fd_sc_hd__ff_100C_1v95|0                            |0     |7.876                                        |0.1971         |
+|sky130_fd_sc_hd__ff_n40C_1v56|0                            |0     |5.6673                                       |0.2875         |
+|sky130_fd_sc_hd__ff_n40C_1v65|0                            |0     |6.4214                                       |0.2538         |
+|sky130_fd_sc_hd__ff_n40C_1v76|0                            |0     |7.0595                                       |0.225          |
+|sky130_fd_sc_hd__ff_n40C_1v95|0                            |0     |7.7865                                       |0.1886         |
+|sky130_fd_sc_hd__ss_100C_1v40|-4.1795                      |-852.1469|-4.1795                                      |0.8902         |
+|sky130_fd_sc_hd__ss_100C_1v60|0                            |0     |0.9168                                       |0.6327         |
+|sky130_fd_sc_hd__ss_n40C_1v28|-33.1544                     |-17283.2285|-33.1544                                     |1.7025         |
+|sky130_fd_sc_hd__ss_n40C_1v35|-18.6189                     |-8574.7725|-18.6189                                     |1.2737         |
+|sky130_fd_sc_hd__ss_n40C_1v40|-12.6422                     |-4906.5107|-12.6422                                     |1.0686         |
+|sky130_fd_sc_hd__ss_n40C_1v44|-9.1347                      |-2864.6699|-9.1347                                      |0.9426         |
+|sky130_fd_sc_hd__ss_n40C_1v60|-1.2012                      |-101.2062|-1.2012                                      |0.6401         |
+|sky130_fd_sc_hd__ss_n40C_1v76|0                            |0     |2.4136                                       |0.4817         |
+
+### Graphs 
+#### Worst Negative Slack Across PVT
+<img width="1655" height="995" alt="wns_2" src="https://github.com/user-attachments/assets/45b42e82-bef4-42c3-a891-c522e281f785" />
+
+#### Total Negative Slack Across PVT
+<img width="1655" height="995" alt="tns_2" src="https://github.com/user-attachments/assets/44e9c539-e81b-4187-9f7a-aa1037fd7eb4" />
+
+#### Worst Setup Slack Across PVT
+<img width="1655" height="995" alt="wss_2" src="https://github.com/user-attachments/assets/3482922e-afb0-45db-a48b-39d005dc5d52" />
+
+#### Worst Hold Slack Across PVT
+<img width="1655" height="995" alt="whs_2" src="https://github.com/user-attachments/assets/f65b46ab-67f7-4664-a151-104b00ccdc8d" />
+
 </details>
 
