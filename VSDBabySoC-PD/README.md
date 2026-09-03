@@ -143,8 +143,107 @@ All of the relevant result files for this run can be found in this [directory](h
 
 *Figure 4: Using klayout to view 6_final.gds (avsddac at the bottom, avsdpll integrated with vsdbabysoc in the middle)*
 
-## Custom LEF Changes
+## ⭐ Custom LEF Changes
+As mentioned before, there were a few bugs in the `avsddac.lef` that were stopping the OpenROAD flow from completing routing.
 
+### 1. Pin D[9] and Pin D[8] Fix
+#### Original Code
+```
+PIN D[8]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER li1 ;
+        RECT 1117.200 613.050 1117.850 709.180 ;
+    END
+  END D[8]
+```
+#### Edited Code
+```
+PIN D[8]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER li1 ;
+        RECT 1117.200 613.050 1117.850 709.180 ;
+      LAYER met1 ;
+        RECT 1115.000 608.000 1120.000 613.050 ;
+    END
+  END D[8]
+```
+#### Rationale
+The input pins for the macro were defined on the Local Interconnect (li1) layer. However, in the Sky130 physical design flow, the global and detailed routers typically require pin access on met1 or higher for top-level signal distribution.
+
+Thus, the router could not find a legal path to the li1 layer, especially given the macro's dense internal layout. Adding a met1 rectangle to the PIN definition created an explicit routing bridge. This means the router did not have to try workarounds just to end up with [Short or Spacing Violations](https://skywater-pdk.readthedocs.io/en/main/rules/summary.html).
+
+<img width="1919" height="1030" alt="fix_met1_lef" src="https://github.com/user-attachments/assets/4a6eb6d6-faae-4e5c-aab2-492c13a5433a" />
+
+*Figure 5: The added met1 port (solid rectangle) creates a route at the boundary of the macro, allowing OpenROAD to connect signal nets such as RV_TO_DAC[8] (blue line) directly to the macro*
+
+### 2. Metal4 Layer Fix
+#### Original Code
+```
+OBS
+      LAYER met4 ;
+        RECT 147.000 1171.010 152.270 1175.050 ;
+        RECT 154.520 1171.010 1172.280 1175.050 ;
+        RECT 147.000 1127.310 1172.280 1171.010 ;
+        RECT 1174.130 1127.310 1188.200 1175.050 ;
+        RECT 147.000 648.540 1188.200 1127.310 ;
+  END
+```
+#### Edited Code
+```
+OBS
+      LAYER met4 ;
+        RECT 147.000 1171.010 152.270 1175.050 ;
+        RECT 154.520 1171.010 1168.000 1175.050 ;
+        RECT 147.000 1127.310 1168.000 1171.010 ;
+        RECT 1178.000 1127.310 1188.200 1175.050 ;
+        RECT 147.000 648.540 1188.200 1127.310 ;
+  END
+```
+
+#### Rationale
+In the original LEF file, several Obstructions/OBS rules are defined. These areas are no-go zones, meaning OpenROAD cannot route wires at this layer. For met4, these zones were places too close together. The right OBS started at `1174.130um` while the left OBS started at `1172.280um`, leaving a `1.850um` gap. 
+
+Analyzing this in the OpenROAD GUI showed a very narrow alley for an OUT pin, which tripped a [Design Rule Check (DRC)](https://skywater-pdk.readthedocs.io/en/main/rules/background.html). Thus, the right and left OBS boundaries were changed to `1178.000um` and `1168.000um` respectively, leaving a `10.000um` gap for the OUT pin.
+
+<img width="1919" height="1032" alt="fix_met4_lef" src="https://github.com/user-attachments/assets/003f35e0-2808-49e9-bd64-a5fec04e1955" />
+
+*Figure 6: OpenROAD GUI ruler showing 10um gap created, allowing the met4 wire to pass without touching no-go OBS zone*
+
+### 3. Configuration Directives
+The following OpenLANE execution flags were also added to the `config.mk` file to loosen up some of the requirements, in order for the routing to produce a tangible result.
+```
+export MACRO_EXTENSION     = 1
+export PLACE_DENSITY       = 0.25
+
+export TNS_END_PERCENT    = 100
+export REMOVE_ABC_BUFFERS = 1
+
+export MAGIC_ZEROIZE_ORIGIN = 0
+export MAGIC_EXT_USE_GDS    = 1
+
+export CTS_BUF_DISTANCE  = 600
+export SKIP_GATE_CLONING = 1
+
+export GLOBAL_ROUTE_ARGS = -allow_congestion
+```
+
+A list of OpenROAD Flow Scripts variables and their related information can be found here: https://openroad-flow-scripts.readthedocs.io/en/latest/user/FlowVariables.html. The following table quickly glosses over the reason for including them for this design.
+
+| Variable Name |	Rationale for Inclusion |
+| --------------| --------------------------|
+`MACRO_EXTENSION`	| Adds a physical halo around macros to prevent standard cells from being placed too close to sensitive IO ports
+`PLACE_DENSITY`	|Reduced to 0.25 to provide significantly more "white space" for routing wires and easing congestion
+`TNS_END_PERCENT`	| Forces the timing optimizer to address 100% of paths with slack violations rather than stopping at a default threshold
+`REMOVE_ABC_BUFFERS`	| Removes redundant buffers added during logic synthesis so the physical resizer can place them more efficiently
+`MAGIC_ZEROIZE_ORIGIN` |	Preserves the original coordinate systems of the macros to prevent alignment shifts during final layout assembly
+`MAGIC_EXT_USE_GDS` |	Ensures verification is performed against the actual GDS geometry rather than simplified abstract LEF views
+`CTS_BUF_DISTANCE`  |	Increases the spacing between clock buffers to prevent an overly dense and complex clock tree
+`SKIP_GATE_CLONING` |	Disables logic duplication to keep the netlist stable and prevent excessive area growth during optimization
+`GLOBAL_ROUTE_ARGS` |	Relaxes routing constraints by allowing the tool to proceed through congested regions that would otherwise cause a crash
 
 ## STA Analysis
 STA analysis was done using TCL files present in this sections's `/scripts` folder. The results are produced automatically by the script, and they will be used to generate graphs for analysis. 
@@ -175,10 +274,10 @@ openroad -exit path/to/script.tcl
 
 <img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/bd08f0ed-81d1-4f88-a74e-da81b5501316" />
 
-*Figure 5: Example of running post-synthesis STA analysis (start of command)*
+*Figure 7: Example of running post-synthesis STA analysis (start of command)*
 
 <img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/4f59954a-ca77-4c8e-a667-82fc2b8bd380" />
 
-*Figure 6: Example of running post-synthesis STA analysis (end of command)*
+*Figure 8: Example of running post-synthesis STA analysis (end of command)*
 
 
