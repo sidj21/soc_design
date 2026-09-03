@@ -1021,6 +1021,8 @@ The following table shows the utilization factor changing from the analysis done
 | Post-Synthesis / Post-Placement | ~726k–755k | 31 | 
 | Post-CTS / Post-Route | 933k | 7 |
 
+Apart from that, the process is the exact same. Run `.tcl` scripts and visualize the data. Note that after routing, OpenROAD generates parasitic resistance and capacitance data in the SPEF format. This was read using the OpenROAD `read_spef`.
+
 ### Visualized Data
 
 #### Post-CTS STA Across PVT
@@ -1075,6 +1077,20 @@ The following table shows the utilization factor changing from the analysis done
 
 #### Worst Hold Slack Across PVT
 <img width="1655" height="995" alt="whs_2" src="https://github.com/user-attachments/assets/f65b46ab-67f7-4664-a151-104b00ccdc8d" />
+
+### Analysis
+#### Post-CTS Passing Constraints Fail in Post-Route
+Earlier in Day 9, post-synthesis and post-placement STA analysis was having trouble with the slower processes at colder temperature. They return in the post-CTS and post-route STA analysis as well. 
+
+`ss_100C_1v40` and `ss_n40C_1v60` specifically both went from a pass to a violation. `ss_100C_1v40` went from 0ns to -4.18ns in the Worst Setup Slack. `ss_n40C_1v60` went from 0ns to -1.20ns in the same category. This shows that the parasitics used at the post-CTS stage, if any, are estimates, rather than the real `.spef` from routed geometry. It shows why STA is performed after each major step in the physical design process, because the layout of the chip changes drastically as it gets closer to its final form.
+
+#### Violating Corners
+The PVT corners that did violate got much worse. As opposed to the slight ±0.5 ns delta in the post-synthesis to post-placement STA, the violations almost doubled in some cases. For example, the `ss_n40C_1v28` went from a setup slack of -16.6ns to -33.2ns. This shows that a lot of slack is necessary at the RTL / synthesis stage, because it only gets tighter as the design realizes its final form.
+
+Interestingly, the hold slack had a similar pattern to the post-synthesis vs post-placement. It didn't really change much when comparing post-CTS and post-route. On average, each corner tightened by around 0.01-0.1ns. Even accounting for real wire parasitics again, no corner crossed zero. `ff_n40C_1v95` remains to be the process with the least slack available (0.1886 ns).
+
+#### Clock Latency
+From the `min-max` reports, we can see that the clock latency doubled as well. More specifically, the clock insertion delay on that same path went from ~2.77 ns (CTS estimate) to ~5.39 ns (routed). The skew stayed relatively similar (around 0.02ns-0.07ns difference) which shows that CTS did its job of balancing out the clock arrival times. It is possible that the tool underestimated the latency, due to aggressive changes in the configuration.
 
 </details>
 
