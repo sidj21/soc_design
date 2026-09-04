@@ -1,7 +1,7 @@
 # VSD Hardware Design Program 
 
 <details>
-<summary>Day 0 - Tools Installation</summary>
+<summary>Week 1 - Tools Installation</summary>
 
 ## Welcome Video Summary
 * To build  a processor, first we need to model the specifications.
@@ -35,7 +35,7 @@ _Figure 3: GTKWave Installation_
 </details>
 
 <details>
-<summary>Day 1 - Introduction to Verilog RTL Design and Synthesis</summary>
+<summary>Week 2, Day 1 - Introduction to Verilog RTL Design and Synthesis</summary>
 
 ## Iverilog
 `good_mux.v`
@@ -117,7 +117,7 @@ _Figure 5: Yosys - Show Command_
 </details>
 
 <details>  
-<summary>Day 2 - Timing libs, Hierarchical vs Flat Synthesis and Efficient Flop Coding Styles</summary>
+<summary>Week 2, Day 2 - Timing libs, Hierarchical vs Flat Synthesis and Efficient Flop Coding Styles</summary>
 
 ## Synthesizing multiple_modules.v
 
@@ -175,7 +175,7 @@ show multiple_modules
 </details>
 
 <details>
-<summary>Day 3 - Combinational and Sequential Optimizations</summary>
+<summary>Week 2, Day 3 - Combinational and Sequential Optimizations</summary>
 
 ## Optimization Exercises
 
@@ -274,7 +274,7 @@ endmodule
 
 <details>
 
-<summary>Day 4 - GLS, Blocking vs Non-blocking and Synthesis-Simulation Mismatch</summary>
+<summary>Week 2, Day 4 - GLS, Blocking vs Non-blocking and Synthesis-Simulation Mismatch</summary>
 
 ## Ternary Mux Example
 
@@ -342,7 +342,7 @@ Due to the incorrect sensitivity list, the GLS does not match the simulation wav
 
 <details>
 
-<summary>Day 5 - VSDBabySoC Mini-Project</summary>  
+<summary>Week 3 & 4 - VSDBabySoC Mini-Project</summary>  
 
 ## RISC-V Based Mini-Project      
 > Pre-synthesis, post-synthesis & STA analysis available here:   
@@ -352,7 +352,7 @@ Due to the incorrect sensitivity list, the GLS does not match the simulation wav
 
 <details>
 
-<summary>Day 6 - CMOS, VLSI & Ngspice </summary> 
+<summary>Week 5 - CMOS, VLSI & Ngspice </summary> 
 
 ## Introduction
 While the role of MOSFETs are usually abstracted away as a digital element, they are very much analog components. The current that flows through the conducting channel is related mainly to the voltage applied at its terminals. However, there are other factors at play, such as the threshold voltage, length and width of the transistor, and other physical properties. Thus, testing transistors in a variety of conditions would become very laborious. SPICE (Simulation Program with Integrated Circuit Emphasis) helps with this process. It allows us to simulate a transistor's behaviour across many different bias conditions.  
@@ -422,7 +422,7 @@ Finally, we have six voltage transfer characteristic curves being run at differe
 
 <details>
 
-<summary>Day 7 - Floorplanning using OpenROAD </summary> 
+<summary>Week 6 - Floorplanning using OpenROAD </summary> 
 
 ## OpenROAD     
 > The OpenROAD documents from background to analysis are available in this folder:   
@@ -437,7 +437,7 @@ Quick links are listed here, in order:
 
 <details>
 
-<summary>Day 8 - ASIC Design with OpenLANE </summary> 
+<summary>Week 7 - ASIC Design with OpenLANE </summary> 
 
 ## OpenLANE
 
@@ -804,293 +804,23 @@ After ensuring the synthesis has included our custom `.lef`, the remaining comma
 </details>
 
 <details>
-<summary>Day 9 - VSDBabySoC Post-Synthesis & Post-Placement STA </summary>
+<summary>Week 8 & 9 - VSDBabySoC Physical Design & STA Analysis </summary>
 
-### Physical Design Process
-> The physical design process from RTL synthesis to route was completed with OpenROAD in the following directory:
-> https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md
+### VSDBabySoC Physical Design
+Week 8 tasks and Week 9 tasks have been combined into the `VSDBabySoC-PD` folder in this repository, as they are very similar. The idea is to run Static Timing Analysis (STA) after each milestone in the ASIC Design Flow.
 
-This section aims to apply Static Timing Analysis (STA) after two critical points in the physical design process: post-synthesis STA and post-placement STA. This is done with the help of the OpenROAD Flow Scripts tool and the database (`.odb`) and constraint (`.sdc`) files it generated as a result of the previously mentioned work.   
+Week 8 captured this STA analysis post-synthesis and post-placement, while Week 9 would have captured it post-CTS and post-route.  
 
-The STA is applied through many different process, voltage, and temperature (PVT) configurations for which the `.lib` files can be downloaded: https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_sc_hd. Finally, since there are 16 target `.lib` files, a `.tcl` script was written to automate the process and generate easily parseable `.csv` data. 
+Quick link to the work:
+https://github.com/sidj21/soc_design/blob/main/VSDBabySoC-PD/README.md
 
-Thus, the same directory structure is assumed and iterated upon from the previous work:
-```
-├── OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/           
-│   ├── rvmyth.v           
-│   ├── rvmyth_gen.v        
-│   ├── clk_gate.v       
-|   ├── vsdbabysoc.v             
-```
-```
-├── OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/           
-│   ├── gds/
-|   ├────── avsddac.gds
-|   ├────── avsdpll.gds
-|   ├── include/
-|   ├────── sandpiper.vh
-|   ├────── sandpiper_gen.vh
-|   ├────── sp_default.vh
-|   ├────── sp_verilog.vh
-│   ├── lef/
-|   ├────── avsddac.lef
-|   ├────── avsdpll.lef
-│   ├── lib/
-|   ├────── avsddac.lib
-|   ├────── avsdpll.lib
-│   ├── vsdbabysoc_synthesis.sdc
-│   ├── macro.cfg
-│   ├── pin_order.cfg
-│   ├── config.mk
-```
-### Scripts
-The `.tcl` scripts will be available in the `scripts` directory of this repository. They were placed in the `OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/` directory. At first, a smaller script was tested with the typical 25C 1.80V process corner and it was successful. OpenROAD properly showed the design area (754802 um^2) and utilization (31%).
+### Main Contents
+1. Introduction, set-up, structure
+2. Running the OpenROAD Flow & Demonstrating the Results with OpenROAD GUI
+3. Demonstrating `avsddac.lef` Fixes in OpenROAD GUI
+4. Capturing STA analysis data from `.odb` and `.sdc` files generated by OpenROAD
+5. Graphing and analyzing the captured data
 
-<img width="1536" height="867" alt="image" src="https://github.com/user-attachments/assets/c6b44725-a185-43d4-af5c-3df9e6c4438a" />
-
-*Figure 1: Testing Post-Placement STA with OpenROAD*
-
-Then, the automated script that would sweep the 16 different PVTs from their respective `.lib` files was executed. 
-```
-cd OpenROAD-flow-scripts/flow/design/src/vsdbabysoc/
-openroad sta_post_place_across_pvt.tcl
-```
-
-<img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/b0b06b7f-856e-4164-b3d5-c3cd5bbab3e8" />
-
-*Figure 2: Post-Placement STA Across PVT (Start of Command)*
-
-<img width="1854" height="1048" alt="image" src="https://github.com/user-attachments/assets/a533595a-f000-49fd-84d8-b94c577ba697" />
-
-*Figure 3: Post-Placement STA Across PVT (End of Command)*
-
-The process for the post-synthesis STA across PVT was not much different. All that needed to be changed were the database file (`.odb`) and constraint file (`.sdc`) being read in the script. For instance, in the second script for the post-synthesis STA, the only notable changes were:
-```
-set ODB_FILE \
-    "$RESULTS_DIR/1_synth.odb"
-
-set SDC_FILE \
-    "$RESULTS_DIR/1_synth.sdc"
-```
-
-### Visualized Data
-
-#### Post-Synthesis STA Across PVT
-
-| PVT Library (Sky130hd) | WNS (ns) | TNS (ns) | Worst Setup Slack (ns) | Worst Hold Slack (ns) |
-| :--- | :---: | :---: | :---: | :---: |
-| sky130_fd_sc_hd__tt_025C_1v80 | 0.0000 | 0.0000 | 7.4919 | 0.3096 |
-| sky130_fd_sc_hd__tt_100C_1v80 | 0.0000 | 0.0000 | 7.5563 | 0.3145 |
-| sky130_fd_sc_hd__ff_100C_1v65 | 0.0000 | 0.0000 | 8.2590 | 0.2491 |
-| sky130_fd_sc_hd__ff_100C_1v95 | 0.0000 | 0.0000 | 8.8909 | 0.1960 |
-| sky130_fd_sc_hd__ff_n40C_1v56 | 0.0000 | 0.0000 | 7.4025 | 0.2915 |
-| sky130_fd_sc_hd__ff_n40C_1v65 | 0.0000 | 0.0000 | 7.9060 | 0.2551 |
-| sky130_fd_sc_hd__ff_n40C_1v76 | 0.0000 | 0.0000 | 8.3438 | 0.2243 |
-| sky130_fd_sc_hd__ff_n40C_1v95 | 0.0000 | 0.0000 | 8.8426 | 0.1875 |
-| sky130_fd_sc_hd__ss_100C_1v40 | 0.0000 | 0.0000 | 0.5913 | 0.9053 |
-| sky130_fd_sc_hd__ss_100C_1v60 | 0.0000 | 0.0000 | 3.9628 | 0.6420 |
-| sky130_fd_sc_hd__ss_n40C_1v28 | **-17.4120** | **-6628.3179** | **-17.4120** | 1.8296 |
-| sky130_fd_sc_hd__ss_n40C_1v35 | **-8.6849** | **-2371.1794** | **-8.6849** | 1.3475 |
-| sky130_fd_sc_hd__ss_n40C_1v40 | **-4.7765** | **-1021.6699** | **-4.7765** | 1.1249 |
-| sky130_fd_sc_hd__ss_n40C_1v44 | **-2.5174** | **-331.2511** | **-2.5174** | 0.9909 |
-| sky130_fd_sc_hd__ss_n40C_1v60 | 0.0000 | 0.0000 | 2.6805 | 0.6628 |
-| sky130_fd_sc_hd__ss_n40C_1v76 | 0.0000 | 0.0000 | 5.0899 | 0.5038 |
-
-
-#### Post-Placement STA Across PVT
-| PVT Library (Sky130hd) | WNS (ns) | TNS (ns) | Worst Setup Slack (ns) | Worst Hold Slack (ns) |
-| :--- | :---: | :---: | :---: | :---: |
-| sky130_fd_sc_hd__tt_025C_1v80 | 0.0000 | 0.0000 | 7.4816 | 0.3089 |
-| sky130_fd_sc_hd__tt_100C_1v80 | 0.0000 | 0.0000 | 7.5707 | 0.3138 |
-| sky130_fd_sc_hd__ff_100C_1v65 | 0.0000 | 0.0000 | 8.2772 | 0.2474 |
-| sky130_fd_sc_hd__ff_100C_1v95 | 0.0000 | 0.0000 | 8.8848 | 0.1956 |
-| sky130_fd_sc_hd__ff_n40C_1v56 | 0.0000 | 0.0000 | 7.4665 | 0.2896 |
-| sky130_fd_sc_hd__ff_n40C_1v65 | 0.0000 | 0.0000 | 7.9396 | 0.2544 |
-| sky130_fd_sc_hd__ff_n40C_1v76 | 0.0000 | 0.0000 | 8.3628 | 0.2226 |
-| sky130_fd_sc_hd__ff_n40C_1v95 | 0.0000 | 0.0000 | 8.8467 | 0.1858 |
-| sky130_fd_sc_hd__ss_100C_1v40 | 0.0000 | 0.0000 | 0.6140 | 0.8811 |
-| sky130_fd_sc_hd__ss_100C_1v60 | 0.0000 | 0.0000 | 4.0389 | 0.6241 |
-| sky130_fd_sc_hd__ss_n40C_1v28 | **-17.9090** | **-7251.8400** | **-17.9090** | 1.7671 |
-| sky130_fd_sc_hd__ss_n40C_1v35 | **-8.7976** | **-2375.6600** | **-8.7976** | 1.2989 |
-| sky130_fd_sc_hd__ss_n40C_1v40 | **-4.7820** | **-888.6320** | **-4.7820** | 1.0878 |
-| sky130_fd_sc_hd__ss_n40C_1v44 | **-2.4837** | **-219.1430** | **-2.4837** | 0.9571 |
-| sky130_fd_sc_hd__ss_n40C_1v60 | 0.0000 | 0.0000 | 2.7781 | 0.6399 |
-| sky130_fd_sc_hd__ss_n40C_1v76 | 0.0000 | 0.0000 | 5.1094 | 0.4851 |
-
-#### Area / Floorplan
-| Type | Area (um^2) | Utilization (%) | 
-| :--- | :---: | :---: |
-| Post-Synthesis | 725,917 | 100% | 
-| Post-Placement | 754,802 | 31% |
-
-### Graphs
-#### Worst Negative Slack Across PVT
-<img width="1653" height="993" alt="wns" src="https://github.com/user-attachments/assets/54642343-8550-48fa-8164-5499c8bfd1d1" />
-
-#### Total Negative Slack Across PVT
-<img width="1655" height="995" alt="tns" src="https://github.com/user-attachments/assets/808a8023-b07b-4fc8-9b9b-f9705788e714" />
-
-#### Worst Setup Slack Across PVT
-<img width="1655" height="995" alt="wss" src="https://github.com/user-attachments/assets/18225de7-a497-4a44-a047-abba8a4e78df" />
-
-#### Worst Hold Slack Across PVT
-<img width="1655" height="995" alt="whs" src="https://github.com/user-attachments/assets/89e96337-2e12-424c-a501-2d232e8082f1" />
-
-## Analysis 
-### Utilization
-The utilization at the synthesis stage is, by definition, the entire cell area. This is due to the fact that physical design happens later, and thus, no floorplan has been defined yet. It is more-so a placeholder at the post-synthesis stage, and post-placement has a real core area sized for routing.
-
-However, it is interesting to see the 3.97% increase in the estimated area. This seems to line up with the theory from the previous [OpenROAD Analysis](https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md). The OpenROAD tool is most likely adding buffers to possibly fix violations, and dealing with actual cell sizes, rather than estimated lengths from the synthesis stage. Overall, a 4% increase is not too great of an increase to get corcerned by.
-
-### Setup 
-4/16 process corners fail the setup slack: `ss_n40C_1v28`, `1v35`, `1v40`, `1v44`. All of these represent a slower process at cold temperatures (-40C). These issues were present in both the post-synthesis and post-placement tables, so slack violations did carry over to the placement process too, albeit with different values. However, in this set of `ss_n*` processes, the failures go away once the voltage climbs up to 1.6V.
-
-In short, the system is dealing with a **-2.4837 ns** WSS at 1.4V. Bumping up the voltage 0.16V, we see a clean **2.6805ns** WSS at 1.6V. That's a roughly 5.2ns gap, so there is some leeway in closing the design somewhere between 1.4V and 1.6V for a slow -40°C process.
-
-### Hold 
-There are no violations, but going from synthesis to placement, the slack does get lower. It is not much but approximately around 1-60ps of hold margin is lost when going from post-synthesis to post-placement. According to the LibreLane tool documentation and supporting forums, this is due to the wire parasitics. [1 - Achieving Timing Closure](https://librelane.readthedocs.io/en/stable/usage/timing_closure/index.html) and [2 - Why net (wire) delays are zero after synthesize?](https://www.edaboard.com/threads/why-net-wire-delays-are-zero-after-synthesize.276234/). During the synthesis stage, the OpenROAD tool assumes ideal wires, which do not have delays. However, the placement tool working with actual hardware accounts for parasitic resistance and capacitance, which introduces delays.
-
-### Reference Repository
-From the reference repository for this task - https://github.com/arunkpv/vsd-hdp/blob/main/docs/Day_25.md, I noticed that post-placement slacks were mostly better than post-synthesis slacks. However, this does not apply uniformly to the results found for this repository's VSDBabySoC design. This is most likely due to the OpenROAD tool running optimizations when mapping real hardware, before coming to one conclusion. 
-
-The following were the placement database (`.odb`) files present after my physical design, which indicates tiny intermediate steps.
-```
-3_1_place_gp_skip_io.odb
-        ↓
-3_2_place_iop.odb
-        ↓
-3_3_place_gp.odb
-        ↓
-3_4_place_resized.odb
-        ↓
-3_5_place_dp.odb
-        ↓
-3_place.odb
-```
-
-However, after looking back at the initial work done with the [OpenROAD Analysis](https://github.com/sidj21/soc_design/blob/main/OpenROAD/03-analysis.md), there are valid reasons for the mismatch.
-
-The OpenROAD tool most likely only optimized the design for one process corner. From the older `config.mk` file, we can see the libraries that the tool was instructed to use. In this directory, only the standard `sky130_fd_sc_hd__tt_025C_1v80.lib` is present. So, while the tool did generate placement databases from `3_1_place_gp_skip_io.odb` to `3_place.odb`, it only did it with one PVT corner in mind. When the STA analysis sweeped over the 16 corners, the tool was not optimizing the design through those lenses.
-```
-export ADDITIONAL_LIBS = $(wildcard $(vsdbabysoc_DIR)/lib/*.lib)
-```
-
-Plus, we can analyze the `reports` generated by the post-placement STA analysis. For example, with `sky130_fd_sc_hd__ss_n40C_1v28`. There is simply too much of a difference between the arrival time and data required time, that it is physically impossible for the 11ns clock to make it up. No optimizations from the placement process can fix this issue.
-```
-  11.0000   11.0000   clock clk (rise edge)
--------------------------------------------------------------
-             9.2079   data required time
-           -27.1169   data arrival time
--------------------------------------------------------------
-           -17.9090   slack (VIOLATED)
-```
-
-Process corners where we do see an improvement is the Total Negative Slack (TNS). So an important takeaway is that placement improving the system slack is not a rule that must always be obeyed. There are a lot of hidden differences in different setups. 
-```
-------------------------------------------------------------
-| sky130_fd_sc_hd__ss_n40C_1v40 |	−1021.7 ns → −888.6 ns |
-| sky130_fd_sc_hd__ss_n40C_1v44 |	−331.3 ns → −219.1 ns  |
-------------------------------------------------------------
-```
-
-### Outputs
-The scripts and outputs have been uploaded to this repository's `STA Analysis - Day 9` with the following structure: 
-```
-STA Analysis - Day 9/
-├── scripts/
-│   └── sta_post_place_across_pvt.tcl
-|	└── sta_post_synthesis_across_pvt.tcl
-├── output/
-│   ├── post_place/
-│   ├── post_synth/
-```
-	
-</details>
-
-<details>
-<summary>Day 10 - VSDBabySoC Post-CTS & Post-Route STA </summary>
-
-### Important
-While dealing with routing issues with the VSDBabySoC, a lot of workarounds were applied to the `config.mk`. These included increasing the size of the die, and a custom `.tcl` script to hand-place the macros. Ultimately, a fix was made to the `avsddac.lef` file. Thus, the results for post-CTS and post-route STA analysis are fine-tuned for the workarounds and fixes made. They are not comparable to the post-synthesis and post-placement STA analysis as the core attributes of the chip changed. The best attempt will be made to analyze the findings.
-
-The following table shows the utilization factor changing from the analysis done in Day 9. It is still possible to plot all four STA analyses on the same chart, but the post-CTS and post-route will be too different for a meaningful analysis. In this section, we will move forward with post-CTS and post-route graphs only.
-
-#### Area / Utilization
-| Type | Area (um^2) | Utilization (%) | 
-| :--- | :---: | :---: |
-| Post-Synthesis / Post-Placement | ~726k–755k | 31 | 
-| Post-CTS / Post-Route | 933k | 7 |
-
-Apart from that, the process is the exact same. Run `.tcl` scripts and visualize the data. Note that after routing, OpenROAD generates parasitic resistance and capacitance data in the SPEF format. This was read using the OpenROAD `read_spef`.
-
-### Visualized Data
-
-#### Post-CTS STA Across PVT
-|PVT Library (Sky130hd) |WNS (ns)                          |TNS (ns)   |Worst Max Slack (ns)                              | Worst Min Slack (ns)|
-|-------|-----------------------------|------|---------------------------------------------|---------------|
-|sky130_fd_sc_hd__tt_025C_1v80|0                            |0     |7.465                                        |0.3177         |
-|sky130_fd_sc_hd__tt_100C_1v80|0                            |0     |7.5548                                       |0.3198         |
-|sky130_fd_sc_hd__ff_100C_1v65|0                            |0     |8.2628                                       |0.2551         |
-|sky130_fd_sc_hd__ff_100C_1v95|0                            |0     |8.873                                        |0.2024         |
-|sky130_fd_sc_hd__ff_n40C_1v56|0                            |0     |7.4489                                       |0.2994         |
-|sky130_fd_sc_hd__ff_n40C_1v65|0                            |0     |7.9231                                       |0.2633         |
-|sky130_fd_sc_hd__ff_n40C_1v76|0                            |0     |8.347                                        |0.2312         |
-|sky130_fd_sc_hd__ff_n40C_1v95|0                            |0     |8.8329                                       |0.1949         |
-|sky130_fd_sc_hd__ss_100C_1v40|0                            |0     |0.8596                                       |0.902          |
-|sky130_fd_sc_hd__ss_100C_1v60|0                            |0     |4.059                                        |0.6368         |
-|sky130_fd_sc_hd__ss_n40C_1v28|-16.6249                     |-6339.9839|-16.6249                                     |1.7987         |
-|sky130_fd_sc_hd__ss_n40C_1v35|-8.083                       |-2235.3291|-8.083                                       |1.334          |
-|sky130_fd_sc_hd__ss_n40C_1v40|-4.3728                      |-906.9581|-4.3728                                      |1.1159         |
-|sky130_fd_sc_hd__ss_n40C_1v44|-2.1636                      |-234.3673|-2.1636                                      |0.9776         |
-|sky130_fd_sc_hd__ss_n40C_1v60|0                            |0     |2.7336                                       |0.6559         |
-|sky130_fd_sc_hd__ss_n40C_1v76|0                            |0     |5.0836                                       |0.4912         |
-
-#### Post-Route STA Across PVT
-|PVT Library (Sky130hd) |WNS (ns)                          |TNS (ns)   |Worst Max Slack (ns)                              | Worst Min Slack (ns)|
-|-------|-----------------------------|------|---------------------------------------------|---------------|
-|sky130_fd_sc_hd__tt_025C_1v80|0                            |0     |5.9124                                       |0.3084         |
-|sky130_fd_sc_hd__tt_100C_1v80|0                            |0     |6.0434                                       |0.3145         |
-|sky130_fd_sc_hd__ff_100C_1v65|0                            |0     |6.966                                        |0.2501         |
-|sky130_fd_sc_hd__ff_100C_1v95|0                            |0     |7.876                                        |0.1971         |
-|sky130_fd_sc_hd__ff_n40C_1v56|0                            |0     |5.6673                                       |0.2875         |
-|sky130_fd_sc_hd__ff_n40C_1v65|0                            |0     |6.4214                                       |0.2538         |
-|sky130_fd_sc_hd__ff_n40C_1v76|0                            |0     |7.0595                                       |0.225          |
-|sky130_fd_sc_hd__ff_n40C_1v95|0                            |0     |7.7865                                       |0.1886         |
-|sky130_fd_sc_hd__ss_100C_1v40|-4.1795                      |-852.1469|-4.1795                                      |0.8902         |
-|sky130_fd_sc_hd__ss_100C_1v60|0                            |0     |0.9168                                       |0.6327         |
-|sky130_fd_sc_hd__ss_n40C_1v28|-33.1544                     |-17283.2285|-33.1544                                     |1.7025         |
-|sky130_fd_sc_hd__ss_n40C_1v35|-18.6189                     |-8574.7725|-18.6189                                     |1.2737         |
-|sky130_fd_sc_hd__ss_n40C_1v40|-12.6422                     |-4906.5107|-12.6422                                     |1.0686         |
-|sky130_fd_sc_hd__ss_n40C_1v44|-9.1347                      |-2864.6699|-9.1347                                      |0.9426         |
-|sky130_fd_sc_hd__ss_n40C_1v60|-1.2012                      |-101.2062|-1.2012                                      |0.6401         |
-|sky130_fd_sc_hd__ss_n40C_1v76|0                            |0     |2.4136                                       |0.4817         |
-
-### Graphs 
-#### Worst Negative Slack Across PVT
-<img width="1655" height="995" alt="wns_2" src="https://github.com/user-attachments/assets/45b42e82-bef4-42c3-a891-c522e281f785" />
-
-#### Total Negative Slack Across PVT
-<img width="1655" height="995" alt="tns_2" src="https://github.com/user-attachments/assets/44e9c539-e81b-4187-9f7a-aa1037fd7eb4" />
-
-#### Worst Setup Slack Across PVT
-<img width="1655" height="995" alt="wss_2" src="https://github.com/user-attachments/assets/3482922e-afb0-45db-a48b-39d005dc5d52" />
-
-#### Worst Hold Slack Across PVT
-<img width="1655" height="995" alt="whs_2" src="https://github.com/user-attachments/assets/f65b46ab-67f7-4664-a151-104b00ccdc8d" />
-
-### Analysis
-#### Post-CTS Passing Constraints Fail in Post-Route
-Earlier in Day 9, post-synthesis and post-placement STA analysis was having trouble with the slower processes at colder temperature. They return in the post-CTS and post-route STA analysis as well. 
-
-`ss_100C_1v40` and `ss_n40C_1v60` specifically both went from a pass to a violation. `ss_100C_1v40` went from 0ns to -4.18ns in the Worst Setup Slack. `ss_n40C_1v60` went from 0ns to -1.20ns in the same category. This shows that the parasitics used at the post-CTS stage, if any, are estimates, rather than the real `.spef` from routed geometry. It shows why STA is performed after each major step in the physical design process, because the layout of the chip changes drastically as it gets closer to its final form.
-
-#### Violating Corners
-The PVT corners that did violate got much worse. As opposed to the slight ±0.5 ns delta in the post-synthesis to post-placement STA, the violations almost doubled in some cases. For example, the `ss_n40C_1v28` went from a setup slack of -16.6ns to -33.2ns. This shows that a lot of slack is necessary at the RTL / synthesis stage, because it only gets tighter as the design realizes its final form.
-
-Interestingly, the hold slack had a similar pattern to the post-synthesis vs post-placement. It didn't really change much when comparing post-CTS and post-route. On average, each corner tightened by around 0.01-0.1ns. Even accounting for real wire parasitics again, no corner crossed zero. `ff_n40C_1v95` remains to be the process with the least slack available (0.1886 ns).
-
-#### Clock Latency
-From the `min-max` reports, we can see that the clock latency doubled as well. More specifically, the clock insertion delay on that same path went from ~2.77 ns (CTS estimate) to ~5.39 ns (routed). The skew stayed relatively similar (around 0.02ns-0.07ns difference) which shows that CTS did its job of balancing out the clock arrival times. It is possible that the tool underestimated the latency, due to aggressive changes in the configuration.
 
 </details>
 
