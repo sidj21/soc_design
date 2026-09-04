@@ -378,3 +378,42 @@ PVT Library (Sky130HD)	| WNS (ns)	| TNS (ns)	| Worst Max Slack (ns)	| Worst Min 
 ![WHS](./images/sta_graph_worst_min_slack.png)
 
 *Figure 12: Aggregate of Worst Hold Slack (W<sub>min</sub>S) across Physical Design & PVT*
+
+## Analysis 
+### 1. Overlapping Slacks
+In a lot of the graphs, we can mostly see three colours. Looking closely at the tables, we can see that post-placement and post-CTS data are almost overlapping. Since the y-axis spans 30ns, it is very difficult to see a gap of 0.03-0.05ns.
+Corner | Synth |	Place |	CTS	|Place − CTS gap |
+-------|-------|-----|----------|-------------------|
+ss_n40C_1v28 |	−17.412	|−16.520	|−16.558	|0.038
+ss_n40C_1v35 |	−8.685	|−7.995	|−8.042	|0.047
+ss_n40C_1v40 |	 −4.777	|−4.298	|−4.341	|0.043
+ss_n40C_1v44 |	−2.517	|−2.103	|−2.134	|0.032
+
+The reason why the post-placement and post-CTS slacks are so similar is between these two steps, the data path remains completely unchanged. This is visible in Figures 1-2. During CTS, OpenROAD is building clock tree buffers to minimize the clock skew. The logic gates and their relative distances remain the same, and thus, the setup and hold times remain similar.  
+
+If we alter the scale, and treat the later physical design process as relative to the synthesis stage, we can see the miniscule gap.
+<img width="4200" height="2100" alt="image" src="https://github.com/user-attachments/assets/b7a44bfc-9707-4b64-86f8-df4789a4aabd" />
+
+*Figure 13: Post-Placement, Post-CTS, and Post-Routing STA Analysis Relative to Post-Synthesis*
+
+### 2. Parasitics Extraction
+The post-synthesis, post-placement, and post-CTS estimate the timing consistently. From the WNS graph, these three STA analysis sit almost on top of each other, for all 16 PVT corners. Routing happens to be the outlier, and it causes severe violations, especially with the slower process and colder temperatures.
+
+It is likely that the earlier parts of the physical design flow did their job correctly. But, as part of extracting the parasitic resistance and capacitance, routing ran into violations that the simulations did not estimate.  
+
+The delay added by the parasitic extraction was fairly consistent, ranging from 6-13 ns. 
+
+Corner	| Synth WNS	| Route WNS	| ns added by routing
+--------|-----------|-----------|------------|
+ss_n40C_1v28	|−17.41 ns	|−30.62 ns	|13.21 ns
+ss_n40C_1v35	|−8.68 ns	|−17.45 ns	|8.76 ns
+ss_n40C_1v40	|−4.78 ns	|−11.92 ns	|7.14 ns
+ss_n40C_1v44	|−2.52 ns	|−8.63 ns	|6.12 ns 
+
+### 3. Importance of STA
+The `ss_100C_1v40` and `ss_n40C_1v60` were both sitting at a clean 0.0 ns WNS throughout post-synthesis, post-placement, and post-CTS STA analysis. Due to the reasons discussed in #2, they both caused a violation at the routing step. `ss_100C_1v40` had a post-route slack of -3.69 ns and `ss_n40C_1v60` had -1.18 ns. As the introduction of this section mentioned, this is why STA is performed after each intermediary step. From this analysis, we can isolate the fault to be in the routing step.
+
+### 4. Hold Stability
+
+Across all 16 corners, hold slack moves by at most ±0.012 ns from post-synthesis all the way through post-routing. From the graph in Figure 12, none of the corners caused a violations. This shows that the parasitic extraction heavily affects the setup slack, as opposed to the hold slack. Having no hold violations across all corners is a good result, considering they cannot be fixed after a chip has been manufactured.
+
